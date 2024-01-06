@@ -1,8 +1,9 @@
 package com.example.ocean
 
-import android.content.Intent
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.ocean.OceanApplication.Companion.logger
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
