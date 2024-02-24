@@ -3,17 +3,10 @@ package com.example.ocean
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
-import kotlin.math.log
+import com.example.ocean.OceanApplication.Companion.logger
 
-class ActivityLifecycleHandler(private val application: Application) :
+class ActivityLifecycleHandler :
     Application.ActivityLifecycleCallbacks {
-
-    companion object {
-        private const val TAG = "LifecycleCallbacks"
-    }
-
-    private val logger = Logger(TAG)
 
     override fun onActivityPaused(p0: Activity) {
         logger.log("onActivityPaused at ${p0.localClassName}")

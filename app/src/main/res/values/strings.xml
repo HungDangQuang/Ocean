@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Ocean</string>
+    <string name="exit_confirmation_dialog_title">Are you sure?</string>
+    <string name="exit_confirmation_dialog_message">Do you want to exit?</string>
+    <string name="common_button_yes">Yes</string>
+    <string name="common_button_no">No</string>
+    <string name="common_button_cancel">Cancel</string>
+    <string name="introduction_message">Welcome to\nOcean app</string>
 </resources>
