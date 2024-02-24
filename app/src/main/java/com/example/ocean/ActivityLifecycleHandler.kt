@@ -3,9 +3,7 @@ package com.example.ocean
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
 import com.example.ocean.OceanApplication.Companion.logger
-import kotlin.math.log
 
 class ActivityLifecycleHandler :
     Application.ActivityLifecycleCallbacks {
