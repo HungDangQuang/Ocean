@@ -15,13 +15,20 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="GoToNextScreenButton" parent="Widget.AppCompat.ImageButton">
+    <style name="GoToNextScreenButton">
         <item name="android:layout_width">@dimen/next_icon_size</item>
         <item name="android:layout_height">@dimen/next_icon_size</item>
         <item name="android:layout_margin">@dimen/margin_s</item>
-        <item name="android:src">@drawable/next_icon</item>
+        <item name="android:src">@drawable/open_next_screen_icon</item>
         <item name="android:importantForAccessibility">no</item>
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>
+    </style>
+
+    <style name="HomeScreenAppTitleText" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/logo_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:maxLines">1</item>
     </style>
 </resources>

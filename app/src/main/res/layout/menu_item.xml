@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable name="menuItem" type="com.example.ocean.MenuItem"/>
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:foreground="@drawable/bg_roundrect_ripple_border"
+        app:cardCornerRadius="11dp"
+        android:background="?android:attr/selectableItemBackground">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent">
+
+            <ImageView
+                android:id="@+id/iv_item_icon"
+                android:layout_width="@dimen/menu_item_size"
+                android:layout_height="@dimen/menu_item_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="@dimen/margin_s"
+                android:src="@{menuItem.menuIcon}"
+                tools:src="@drawable/add_icon"/>
+
+            <TextView
+                android:id="@+id/tv_item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/iv_item_icon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="@{menuItem.menuTitle}"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/menu_item_text_size"
+                tools:text="title"
+                android:layout_marginStart="@dimen/margin_s"/>
+
+            <ImageView
+                android:id="@+id/iv_next_icon"
+                android:layout_width="@dimen/menu_next_icon_size"
+                android:layout_height="@dimen/menu_next_icon_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="@dimen/margin_s"
+                android:src="@drawable/next_icon"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

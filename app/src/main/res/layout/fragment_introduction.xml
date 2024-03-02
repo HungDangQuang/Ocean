@@ -17,7 +17,7 @@
         tools:text="@string/introduction_message"
         android:text="@string/introduction_message"/>
 
-    <ImageButton
+    <ImageView
         style="@style/GoToNextScreenButton"
         android:id="@+id/btn_open_home"
         app:layout_constraintEnd_toEndOf="parent"

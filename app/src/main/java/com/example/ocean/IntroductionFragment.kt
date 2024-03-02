@@ -1,9 +1,11 @@
 package com.example.ocean
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import com.example.ocean.databinding.FragmentIntroductionBinding
 class IntroductionFragment : BaseFragment() {
 
@@ -20,11 +22,25 @@ class IntroductionFragment : BaseFragment() {
     }
 
     override fun setUpClickableView() {
-        TODO("Not yet implemented")
+        binding.btnOpenHome.setOnClickListener {
+            it.startAnimation(AnimationUtils.loadAnimation(context, R.anim.click))
+            goToNextScreen()
+        }
     }
 
     override fun goToNextScreen() {
-        TODO("Not yet implemented")
+        Log.d(TAG, "goToNextScreen: Home")
+        parentFragmentManager.beginTransaction().apply {
+            setCustomAnimations(
+                R.anim.slide_in, // enter
+                R.anim.fade_out, // exit
+                R.anim.fade_in, // popEnter
+                R.anim.slide_out // popExit
+            )
+            replace(R.id.fragment_container_view, HomeFragment())
+            addToBackStack(null)
+            commit()
+        }
     }
 
 }

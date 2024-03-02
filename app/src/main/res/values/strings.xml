@@ -6,4 +6,8 @@
     <string name="common_button_no">No</string>
     <string name="common_button_cancel">Cancel</string>
     <string name="introduction_message">Welcome to\nOcean app</string>
+    <string name="menu_title_add_item">Add new</string>
+    <string name="menu_item_dictionary">Dictionary</string>
+    <string name="menu_item_start_test">Start test</string>
+    <string name="menu_item_speaker">Speaker</string>
 </resources>
