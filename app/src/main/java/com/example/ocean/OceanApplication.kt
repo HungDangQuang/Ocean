@@ -1,7 +1,9 @@
 package com.example.ocean
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class OceanApplication : Application() {
 
     companion object {
