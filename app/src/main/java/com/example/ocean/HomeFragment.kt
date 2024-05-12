@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ocean.databinding.FragmentHomeBinding
 
@@ -62,6 +63,7 @@ class HomeFragment : BaseFragment(), OnMenuItemClickListener {
             
             getString(R.string.menu_title_add_item) -> {
                 Log.d(TAG, "Start opening word addition screen")
+                findNavController().navigate(R.id.vocabularyAdditionFragment)
             }
             
             getString(R.string.menu_item_dictionary) -> {

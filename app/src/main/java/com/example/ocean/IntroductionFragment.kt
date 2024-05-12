@@ -1,5 +1,6 @@
 package com.example.ocean
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -37,9 +38,9 @@ class IntroductionFragment : BaseFragment() {
                 R.anim.fade_in, // popEnter
                 R.anim.slide_out // popExit
             )
-            replace(R.id.fragment_container_view, HomeFragment())
-            addToBackStack(null)
-            commit()
+            val intent = Intent(context, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
         }
     }
 
