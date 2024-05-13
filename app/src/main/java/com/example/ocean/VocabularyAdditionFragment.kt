@@ -34,7 +34,12 @@ class VocabularyAdditionFragment : BaseFragment() {
             binding.inputLanguageCountry.country = it
         })
 
-        countryViewModel.inputLanguageCountry.value = Country(R.drawable.united_states_flag, "TEST")
+        countryViewModel.outputLanguageCountry.observe(viewLifecycleOwner, Observer {
+            binding.outputLanguageCountry.country = it
+        })
+
+        countryViewModel.inputLanguageCountry.value = Country(R.drawable.united_states_flag, "USA")
+        countryViewModel.outputLanguageCountry.value = Country(R.drawable.united_kingdom_flag, "UK")
     }
 
 
