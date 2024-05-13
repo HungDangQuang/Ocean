@@ -10,8 +10,6 @@ class StartUpActivity : AppCompatActivity(R.layout.activity_start_up) {
 
     private val TAG = StartUpActivity::class.simpleName
 
-    private lateinit var exitConfirmationDialog : AlertDialog
-
     override fun getOnBackInvokedDispatcher(): OnBackInvokedDispatcher {
         Log.d(TAG, "getOnBackInvokedDispatcher")
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -26,9 +24,7 @@ class StartUpActivity : AppCompatActivity(R.layout.activity_start_up) {
 
         Log.d(TAG, "showExitConfirmationDialog")
 
-        val alertDialogBuilder = AlertDialog.Builder(this)
-
-        alertDialogBuilder.apply {
+        AlertDialog.Builder(this).apply {
             setTitle(getString(R.string.exit_confirmation_dialog_title))
             setMessage(getString(R.string.exit_confirmation_dialog_message))
             setPositiveButton(getString(R.string.common_button_yes)) { dialog, _ ->
@@ -40,23 +36,7 @@ class StartUpActivity : AppCompatActivity(R.layout.activity_start_up) {
                 Log.d(TAG, "showExitConfirmationDialog: dismiss dialog")
                 dialog.dismiss()
             }
-        }
-
-        exitConfirmationDialog = alertDialogBuilder.create()
-
-        exitConfirmationDialog.show()
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        exitConfirmationDialog.let {
-
-            if (exitConfirmationDialog.isShowing)
-                exitConfirmationDialog.cancel()
-
-            null
-        }
+        }.show()
     }
 
 }
