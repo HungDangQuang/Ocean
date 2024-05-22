@@ -6,12 +6,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.activity.OnBackPressedCallback
+import com.example.ocean.Utils.Utility
 import com.example.ocean.databinding.FragmentStartupBinding
 
 class StartupFragment : BaseFragment() {
 
     private lateinit var binding: FragmentStartupBinding
     private val TAG = StartupFragment::class.simpleName
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // handle back pressed
+        activity?.let {
+            it.onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    Utility.showExitConfirmationDialog(it)
+                }
+
+            } )
+        }
+    }
     
     override fun createView(
         inflater: LayoutInflater,
