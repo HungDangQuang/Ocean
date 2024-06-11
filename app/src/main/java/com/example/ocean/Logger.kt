@@ -1,6 +1,7 @@
 package com.example.ocean
 
 import android.util.Log
+import androidx.databinding.ktx.BuildConfig
 
 class Logger(private val TAG: String){
     private val priority:Int = Log.DEBUG
