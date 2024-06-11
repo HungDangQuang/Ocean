@@ -51,10 +51,6 @@ class VocabularyAdditionFragment : BaseFragment(), StorageUtils {
         countryViewModel.inputLanguageCountry.value = Country(R.drawable.united_states_flag, "USA")
         countryViewModel.outputLanguageCountry.value = Country(R.drawable.united_kingdom_flag, "UK")
         setUpViewModel()
-        val lst = Utility.getCountries()
-        for (item:String in lst) {
-            Log.d(TAG, "country: $item")
-        }
     }
 
     private fun setUpViewModel() {
