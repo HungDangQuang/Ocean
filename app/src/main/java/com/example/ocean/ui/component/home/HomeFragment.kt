@@ -1,4 +1,4 @@
-package com.example.ocean
+package com.example.ocean.ui.component.home
 
 import android.os.Bundle
 import android.util.Log
@@ -8,7 +8,12 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ocean.ui.adapter.MenuItem
+import com.example.ocean.ui.adapter.MenuItemAdapter
+import com.example.ocean.ui.adapter.OnMenuItemClickListener
+import com.example.ocean.R
 import com.example.ocean.databinding.FragmentHomeBinding
+import com.example.ocean.ui.base.BaseFragment
 
 class HomeFragment : BaseFragment(), OnMenuItemClickListener {
 
@@ -40,9 +45,15 @@ class HomeFragment : BaseFragment(), OnMenuItemClickListener {
     private fun initMenuItems(): List<MenuItem> {
         return listOf(
             MenuItem(ContextCompat.getDrawable(requireContext(), R.drawable.add_icon)!!, getString(R.string.menu_title_add_item)),
-            MenuItem(ContextCompat.getDrawable(requireContext(), R.drawable.dictionary_icon)!!, getString(R.string.menu_item_dictionary)),
-            MenuItem(ContextCompat.getDrawable(requireContext(), R.drawable.stopwatch_icon)!!, getString(R.string.menu_item_start_test)),
-            MenuItem(ContextCompat.getDrawable(requireContext(), R.drawable.speaker_icon)!!, getString(R.string.menu_item_speaker))
+            MenuItem(ContextCompat.getDrawable(requireContext(), R.drawable.dictionary_icon)!!, getString(
+                R.string.menu_item_dictionary
+            )),
+            MenuItem(ContextCompat.getDrawable(requireContext(), R.drawable.stopwatch_icon)!!, getString(
+                R.string.menu_item_start_test
+            )),
+            MenuItem(ContextCompat.getDrawable(requireContext(), R.drawable.speaker_icon)!!, getString(
+                R.string.menu_item_speaker
+            ))
         )
     }
 

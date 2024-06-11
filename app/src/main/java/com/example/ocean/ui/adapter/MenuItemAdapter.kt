@@ -1,4 +1,4 @@
-package com.example.ocean
+package com.example.ocean.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,7 +10,7 @@ class MenuItemAdapter(private val itemList: List<MenuItem>, private val onMenuIt
 
     class ViewHolder(private val itemBinding: MenuItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bind(item:MenuItem, listener: OnMenuItemClickListener) {
+        fun bind(item: MenuItem, listener: OnMenuItemClickListener) {
             itemBinding.menuItem = item
             itemBinding.executePendingBindings()
             itemView.setOnClickListener {
