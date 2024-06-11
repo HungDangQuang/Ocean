@@ -1,19 +1,29 @@
-package com.example.ocean
+package com.example.ocean.ui.component.details.add
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.ocean.CountryViewModel
+import com.example.ocean.R
+import com.example.ocean.Utils.Utility
 import com.example.ocean.data.Country
+import com.example.ocean.data.CountryRepositoryImpl
+import com.example.ocean.data.RetrofitInstance
 import com.example.ocean.databinding.FragmentVocabularyAdditionBinding
+import com.example.ocean.domain.storage.StorageUtils
+import com.example.ocean.domain.usecase.GetCountryUseCase
+import com.example.ocean.ui.base.BaseFragment
+import com.example.presentation.CountryViewModelFactory
 
-class VocabularyAdditionFragment : BaseFragment() {
+class VocabularyAdditionFragment : BaseFragment(), StorageUtils {
     private lateinit var binding:FragmentVocabularyAdditionBinding
     private lateinit var countryViewModel: CountryViewModel
+    private val TAG = VocabularyAdditionFragment::class.java.simpleName
+    private lateinit var vm: com.example.presentation.CountryViewModel
 
     override fun createView(
         inflater: LayoutInflater,
@@ -40,6 +50,19 @@ class VocabularyAdditionFragment : BaseFragment() {
 
         countryViewModel.inputLanguageCountry.value = Country(R.drawable.united_states_flag, "USA")
         countryViewModel.outputLanguageCountry.value = Country(R.drawable.united_kingdom_flag, "UK")
+        setUpViewModel()
+        val lst = Utility.getCountries()
+        for (item:String in lst) {
+            Log.d(TAG, "country: $item")
+        }
+    }
+
+    private fun setUpViewModel() {
+        val countryRepository = CountryRepositoryImpl(RetrofitInstance.apiService)
+        val getCountriesUseCase = GetCountryUseCase(countryRepository,"AD" ,this)
+        val viewModelFactory = CountryViewModelFactory(getCountriesUseCase)
+        vm = ViewModelProvider(this, viewModelFactory)[com.example.presentation.CountryViewModel::class.java]
+
     }
 
 
@@ -49,6 +72,11 @@ class VocabularyAdditionFragment : BaseFragment() {
 
     override fun goToNextScreen() {
 
+    }
+
+    override suspend fun storeFileInLocalStorage(byteArray: ByteArray) {
+        Log.d(TAG, "storeFileInLocalStorage: start storing image")
+        context?.let { Utility.saveImageToDisk(it, byteArray) }
     }
 
 }

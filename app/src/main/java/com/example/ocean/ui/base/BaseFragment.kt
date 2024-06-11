@@ -1,4 +1,4 @@
-package com.example.ocean
+package com.example.ocean.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

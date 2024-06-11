@@ -1,4 +1,4 @@
-package com.example.ocean
+package com.example.ocean.ui.component.introduction
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import com.example.ocean.ui.component.home.MainActivity
+import com.example.ocean.R
 import com.example.ocean.databinding.FragmentIntroductionBinding
+import com.example.ocean.ui.base.BaseFragment
+
 class IntroductionFragment : BaseFragment() {
 
     private val TAG = IntroductionFragment::class.simpleName

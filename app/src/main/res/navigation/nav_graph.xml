@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.ocean.HomeFragment"
+        android:name="com.example.ocean.ui.component.home.HomeFragment"
         android:label="HomeFragment">
     </fragment>
 
     <fragment
         android:id="@+id/vocabularyAdditionFragment"
-        android:name="com.example.ocean.VocabularyAdditionFragment"
+        android:name="com.example.ocean.ui.component.details.add.VocabularyAdditionFragment"
         android:label="fragment_vocabulary_addition"
         tools:layout="@layout/fragment_vocabulary_addition" />
 

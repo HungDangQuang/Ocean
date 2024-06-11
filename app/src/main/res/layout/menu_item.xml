@@ -5,7 +5,7 @@
 
     <data>
         <import type="android.view.View"/>
-        <variable name="menuItem" type="com.example.ocean.MenuItem"/>
+        <variable name="menuItem" type="com.example.ocean.ui.adapter.MenuItem"/>
     </data>
 
     <androidx.cardview.widget.CardView

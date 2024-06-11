@@ -12,12 +12,12 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_input_vocabulary_language"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:foreground="@drawable/bg_roundrect_ripple_border"
@@ -29,31 +29,19 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent">
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/iv_input_language_flag"
-                    app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="10dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintWidth_percent="0.25"
-                    app:layout_constraintDimensionRatio="1:1"
-                    tools:src="@drawable/united_states_flag"
-                    app:imageResource="@{country.countryFlag}"/>
-
                 <TextView
                     android:id="@+id/tv_input_language_country"
                     style="@style/CountryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/iv_input_language_flag"
+                    android:text="@{country.countryName}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     tools:text="US"
-                    android:text="@{country.countryName}"/>
+                    android:textStyle="bold"
+                    android:layout_margin="15dp"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

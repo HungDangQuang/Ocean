@@ -1,12 +1,9 @@
-package com.example.ocean
+package com.example.ocean.ui.base
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.util.Log
-import android.window.OnBackInvokedDispatcher
-import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.ocean.ui.component.plash.StartUpActivity
 
 open class BaseActivity(layoutResourceId: Int): AppCompatActivity(layoutResourceId) {
 

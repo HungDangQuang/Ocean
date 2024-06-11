@@ -1,9 +1,11 @@
-package com.example.ocean
+package com.example.ocean.ui.component.home
 
 
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.example.ocean.R
+import com.example.ocean.ui.base.BaseActivity
 
 class MainActivity : BaseActivity(R.layout.activity_main) {
 

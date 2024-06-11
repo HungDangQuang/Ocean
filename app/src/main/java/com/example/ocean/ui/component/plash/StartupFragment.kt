@@ -1,4 +1,4 @@
-package com.example.ocean
+package com.example.ocean.ui.component.plash
 
 import android.os.Bundle
 import android.util.Log
@@ -7,8 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
+import com.example.ocean.R
 import com.example.ocean.Utils.Utility
 import com.example.ocean.databinding.FragmentStartupBinding
+import com.example.ocean.ui.base.BaseFragment
+import com.example.ocean.ui.component.introduction.IntroductionFragment
 
 class StartupFragment : BaseFragment() {
 
