@@ -70,9 +70,8 @@ class VocabularyAdditionFragment : BaseFragment(), StorageUtils {
 
     }
 
-    override suspend fun storeFileInLocalStorage(byteArray: ByteArray) {
-        Log.d(TAG, "storeFileInLocalStorage: start storing image")
-        context?.let { Utility.saveImageToDisk(it, byteArray) }
+    override fun storeFileInLocalStorage(byteArray: ByteArray, fileName: String) {
+        context?.let { Utility.saveImageToDisk(it, byteArray, fileName) }
     }
 
 }

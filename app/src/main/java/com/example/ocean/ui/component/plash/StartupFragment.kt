@@ -63,4 +63,32 @@ class StartupFragment : BaseFragment() {
         }
     }
 
+    private fun downloadListOfCountryFlag() {
+        val countryRepository = CountryRepositoryImpl(RetrofitInstance.apiService)
+        val scope = CoroutineScope(Dispatchers.IO)
+
+
+        scope.launch {
+            val deferredResults = Utility.getListOfCountryCode().asFlow().map { countryCode ->
+                async {
+                    Log.d(TAG, "downloadListOfCountryFlag: $countryCode")
+                    val getCountryUseCase =
+                        GetCountryUseCase(countryRepository, countryCode, this@StartupFragment)
+                    getCountryUseCase(Unit)
+                }
+            }
+                .buffer()
+                .toList()
+
+            try {
+                // Await all deferred tasks within a specified time limit
+                withTimeout(TIME_OUT_MILLIS) {
+                    deferredResults.awaitAll()
+                }
+                Log.d(TAG, "All country flags downloaded within the time limit")
+            } catch (e: TimeoutCancellationException) {
+                Log.e(TAG, "Timeout: Not all country flags were downloaded in time")
+            }
+        }
+    }
 }

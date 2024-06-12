@@ -1,5 +1,5 @@
 package com.example.ocean.domain.storage
 
 interface StorageUtils {
-    suspend fun storeFileInLocalStorage(byteArray: ByteArray)
+    fun storeFileInLocalStorage(byteArray: ByteArray, fileName: String)
 }

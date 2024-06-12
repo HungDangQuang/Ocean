@@ -5,6 +5,8 @@ import android.content.Context
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import com.example.ocean.R
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -43,7 +45,7 @@ class Utility {
             val isoCountryCodes: Array<String> = Locale.getISOCountries()
             val countriesWithEmojis: ArrayList<String> = arrayListOf()
             for (countryCode in isoCountryCodes) {
-//                Log.d(TAG, "getCountries: $countryCode")
+                Log.d(TAG, "getCountries: $countryCode")
                 val locale = Locale("", countryCode)
                 val countryName: String = locale.displayCountry
                 val flagOffset = 0x1F1E6
@@ -57,21 +59,20 @@ class Utility {
             return countriesWithEmojis
         }
 
-        fun saveImageToDisk(context: Context, byteArray: ByteArray) {
-            Log.d(TAG, "saveImageToDisk")
-            val file = File(context.filesDir, "downloaded_image.jpg")
-            // Create the parent directories if they do not exist
-            file.parentFile?.mkdirs()
+        fun getListOfCountryCode(): Array<String> = Locale.getISOCountries()
 
+        fun saveImageToDisk(context: Context, byteArray: ByteArray, fileName: String) {
+            val countryFlagFolder = File(context.filesDir, "country_flags")
+            countryFlagFolder.takeIf { !it.exists() }?.apply { mkdirs() }
+            val file = File(countryFlagFolder, "$fileName.png")
             // Write the byte array to the file
             try {
                 FileOutputStream(file).use { fos ->
                     fos.write(byteArray)
                 }
-                println("Image saved successfully")
+                Log.d(TAG, "Image $fileName.png saved successfully")
             } catch (e: IOException) {
-                e.printStackTrace()
-                println("Failed to save image: ${e.message}")
+                Log.e(TAG, "Failed to save image: ${e.message}")
             }
         }
     }
