@@ -9,14 +9,33 @@ import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
 import com.example.ocean.R
 import com.example.ocean.Utils.Utility
+import com.example.ocean.data.CountryRepositoryImpl
+import com.example.ocean.data.RetrofitInstance
 import com.example.ocean.databinding.FragmentStartupBinding
+import com.example.ocean.domain.storage.StorageUtils
+import com.example.ocean.domain.usecase.GetCountryUseCase
 import com.example.ocean.ui.base.BaseFragment
 import com.example.ocean.ui.component.introduction.IntroductionFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 
-class StartupFragment : BaseFragment() {
+class StartupFragment : BaseFragment(), StorageUtils {
 
     private lateinit var binding: FragmentStartupBinding
     private val TAG = StartupFragment::class.simpleName
+
+    companion object {
+        private const val TIME_OUT_MILLIS = 10000L
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,4 +110,10 @@ class StartupFragment : BaseFragment() {
             }
         }
     }
+
+    override fun storeFileInLocalStorage(byteArray: ByteArray, fileName: String) {
+//        Log.d(TAG, "storeFileInLocalStorage: start storing image")
+        context?.let { Utility.saveImageToDisk(it, byteArray, fileName) }
+    }
+
 }
