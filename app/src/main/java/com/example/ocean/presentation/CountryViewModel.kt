@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.Country
-import com.example.domain.usecase.GetCountriesUseCase
 import com.example.ocean.domain.usecase.GetCountryUseCase
 import com.example.ocean.domain.usecase.Result
 import kotlinx.coroutines.launch

@@ -2,7 +2,6 @@ package com.example.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.domain.usecase.GetCountriesUseCase
 import com.example.ocean.domain.usecase.GetCountryUseCase
 
 class CountryViewModelFactory(private val getCountryUseCase: GetCountryUseCase): ViewModelProvider.Factory {
