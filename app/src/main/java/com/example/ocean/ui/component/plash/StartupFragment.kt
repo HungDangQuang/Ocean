@@ -49,6 +49,9 @@ class StartupFragment : BaseFragment(), StorageUtils {
 
             } )
         }
+
+        // start handle downloading country flag images
+        downloadListOfCountryFlag()
     }
     
     override fun createView(
