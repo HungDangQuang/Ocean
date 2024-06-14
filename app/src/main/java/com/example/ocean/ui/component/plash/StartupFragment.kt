@@ -1,5 +1,7 @@
 package com.example.ocean.ui.component.plash
 
+import android.app.Application
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.ViewModelProvider
+import com.example.ocean.OceanApplication
 import com.example.ocean.R
 import com.example.ocean.Utils.Utility
 import com.example.ocean.data.CountryRepositoryImpl
@@ -16,6 +20,7 @@ import com.example.ocean.domain.storage.StorageUtils
 import com.example.ocean.domain.usecase.GetCountryUseCase
 import com.example.ocean.ui.base.BaseFragment
 import com.example.ocean.ui.component.introduction.IntroductionFragment
+import com.example.presentation.CountryViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
@@ -32,10 +37,8 @@ class StartupFragment : BaseFragment(), StorageUtils {
 
     private lateinit var binding: FragmentStartupBinding
     private val TAG = StartupFragment::class.simpleName
-
-    companion object {
-        private const val TIME_OUT_MILLIS = 10000L
-    }
+    private lateinit var dialog: Dialog
+    private lateinit var vm: com.example.presentation.CountryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +53,7 @@ class StartupFragment : BaseFragment(), StorageUtils {
             } )
         }
 
-        // start handle downloading country flag images
-        downloadListOfCountryFlag()
+        showResourceDownloadingDialog()
     }
     
     override fun createView(
@@ -85,38 +87,49 @@ class StartupFragment : BaseFragment(), StorageUtils {
         }
     }
 
-    private fun downloadListOfCountryFlag() {
-        val countryRepository = CountryRepositoryImpl(RetrofitInstance.apiService)
-        val scope = CoroutineScope(Dispatchers.IO)
-
-
-        scope.launch {
-            val deferredResults = Utility.getListOfCountryCode().asFlow().map { countryCode ->
-                async {
-                    Log.d(TAG, "downloadListOfCountryFlag: $countryCode")
-                    val getCountryUseCase =
-                        GetCountryUseCase(countryRepository, countryCode, this@StartupFragment)
-                    getCountryUseCase(Unit)
-                }
-            }
-                .buffer()
-                .toList()
-
-            try {
-                // Await all deferred tasks within a specified time limit
-                withTimeout(TIME_OUT_MILLIS) {
-                    deferredResults.awaitAll()
-                }
-                Log.d(TAG, "All country flags downloaded within the time limit")
-            } catch (e: TimeoutCancellationException) {
-                Log.e(TAG, "Timeout: Not all country flags were downloaded in time")
-            }
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dialog.dismiss()
     }
 
     override fun storeFileInLocalStorage(byteArray: ByteArray, fileName: String) {
 //        Log.d(TAG, "storeFileInLocalStorage: start storing image")
-        context?.let { Utility.saveImageToDisk(it, byteArray, fileName) }
+        Utility.saveImageToDisk(byteArray, fileName)
     }
 
+    private fun setUpViewModel() {
+        val countryRepository = CountryRepositoryImpl(RetrofitInstance.apiService)
+        val getCountriesUseCase = GetCountryUseCase(countryRepository,"AD" ,this)
+        val viewModelFactory = CountryViewModelFactory(getCountriesUseCase)
+        vm = ViewModelProvider(this, viewModelFactory)[com.example.presentation.CountryViewModel::class.java]
+
+        vm.getDownloadingStatus().observe(this
+        ) {
+            Log.d(TAG, "setUpViewModel: all images downloaded, updated status in StartupFragment")
+            goToNextScreen()
+        }
+
+    }
+
+    private fun showResourceDownloadingDialog() {
+        // show dialog
+        dialog = Dialog(requireContext())
+        val dialogHandler = object : Utility.Companion.DialogHandler {
+            override fun onPositiveClick(): View.OnClickListener {
+                return View.OnClickListener {
+                    dialog.dismiss()
+                    // start handle downloading country flag images
+                    setUpViewModel()
+                }
+            }
+
+            override fun onNegativeClick(): View.OnClickListener {
+                return View.OnClickListener {
+                    dialog.dismiss()
+                }
+            }
+
+        }
+        Utility.showDialog(dialog, R.layout.dialog_image_downloader_confirmation, R.id.image_downloading_button_download, R.id.image_downloading_button_cancel, dialogHandler)
+    }
 }

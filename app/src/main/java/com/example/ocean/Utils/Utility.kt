@@ -70,8 +70,8 @@ class Utility {
 
         fun getListOfCountryCode(): Array<String> = Locale.getISOCountries()
 
-        fun saveImageToDisk(context: Context, byteArray: ByteArray, fileName: String) {
-            val countryFlagFolder = File(context.filesDir, "country_flags")
+        fun saveImageToDisk(byteArray: ByteArray, fileName: String) {
+            val countryFlagFolder = File(OceanApplication.applicationContext().filesDir, "country_flags")
             countryFlagFolder.takeIf { !it.exists() }?.apply { mkdirs() }
             val file = File(countryFlagFolder, "$fileName.png")
             // Write the byte array to the file
