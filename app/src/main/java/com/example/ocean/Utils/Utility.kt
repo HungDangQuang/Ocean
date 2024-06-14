@@ -1,12 +1,21 @@
 package com.example.ocean.Utils
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
+import android.content.res.Resources
 import android.util.Log
+import android.view.View.OnClickListener
+import android.view.Window
+import android.widget.Button
+import androidx.appcompat.app.ActionBar.LayoutParams
 import androidx.appcompat.app.AlertDialog
+import com.example.ocean.OceanApplication
 import com.example.ocean.R
+import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -74,6 +83,37 @@ class Utility {
             } catch (e: IOException) {
                 Log.e(TAG, "Failed to save image: ${e.message}")
             }
+        }
+
+        fun showDialog(dialog: Dialog, uiResource: Int, positiveButtonUiResource: Int, negativeButtonUiResource: Int, dialogHandler: DialogHandler ) {
+
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(false)
+            dialog.setContentView(uiResource)
+
+            dialog.window?.setLayout(
+                (getDeviceWidth() * 0.9f).toInt(),
+                LayoutParams.WRAP_CONTENT
+            )
+
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent);
+
+            val positiveButton = dialog.findViewById<Button>(positiveButtonUiResource)
+            positiveButton.setOnClickListener(dialogHandler.onPositiveClick())
+
+            val negativeButton = dialog.findViewById<Button>(negativeButtonUiResource)
+            negativeButton.setOnClickListener(dialogHandler.onNegativeClick())
+
+            dialog.show()
+        }
+
+        fun getDeviceWidth() = Resources.getSystem().displayMetrics.widthPixels
+        fun getDeviceHeight() = Resources.getSystem().displayMetrics.heightPixels
+
+
+        interface DialogHandler {
+            fun onPositiveClick(): OnClickListener
+            fun onNegativeClick(): OnClickListener
         }
     }
 }
