@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/dialog_white_bg"
+    android:paddingHorizontal="24dp"
+    android:paddingBottom="24dp">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.25"
+        app:layout_constraintDimensionRatio="1:0.75"
+        android:src="@drawable/download_icon"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"/>
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/icon"
+        android:orientation="vertical"
+        android:divider="@drawable/divider"
+        android:showDividers="middle">
+
+        <TextView
+            style="@style/DialogTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_image_downloading_title"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="6dp"/>
+
+        <TextView
+            style="@style/DialogMessageText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_image_downloading_message"
+            android:layout_marginVertical="8dp"/>
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_content"
+        android:layout_marginTop="16dp">
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/GrayButton"
+            android:id="@+id/image_downloading_button_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.45"
+            android:text="@string/common_button_cancel"/>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/BlueButton"
+            android:id="@+id/image_downloading_button_download"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.45"
+            android:text="@string/dialog_image_downloading_button_download"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

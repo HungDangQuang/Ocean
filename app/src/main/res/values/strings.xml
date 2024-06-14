@@ -1,13 +1,21 @@
 <resources>
     <string name="app_name">Ocean</string>
+
     <string name="exit_confirmation_dialog_title">Are you sure?</string>
     <string name="exit_confirmation_dialog_message">Do you want to exit?</string>
+
     <string name="common_button_yes">Yes</string>
     <string name="common_button_no">No</string>
     <string name="common_button_cancel">Cancel</string>
+
     <string name="introduction_message">Welcome to\nOcean app</string>
+
     <string name="menu_title_add_item">Add new</string>
     <string name="menu_item_dictionary">Dictionary</string>
     <string name="menu_item_start_test">Start test</string>
     <string name="menu_item_speaker">Speaker</string>
+
+    <string name="dialog_image_downloading_title">Download resources</string>
+    <string name="dialog_image_downloading_message">Some resources need to be downloaded. For better experience, please wait.</string>
+    <string name="dialog_image_downloading_button_download">Download</string>
 </resources>
