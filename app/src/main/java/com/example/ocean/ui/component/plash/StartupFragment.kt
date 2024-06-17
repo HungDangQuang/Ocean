@@ -1,7 +1,12 @@
 package com.example.ocean.ui.component.plash
 
+import android.animation.Animator
+import android.animation.ObjectAnimator
 import android.app.Application
 import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -52,8 +57,6 @@ class StartupFragment : BaseFragment(), StorageUtils {
 
             } )
         }
-
-        showResourceDownloadingDialog()
     }
     
     override fun createView(
@@ -63,6 +66,14 @@ class StartupFragment : BaseFragment(), StorageUtils {
     ): View {
         binding = FragmentStartupBinding.inflate(layoutInflater)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // todo start checking whether the images are downloaded
+        if (true) {
+            showResourceDownloadingDialog()
+        }
     }
 
     override fun setUpClickableView() {
@@ -97,7 +108,7 @@ class StartupFragment : BaseFragment(), StorageUtils {
         Utility.saveImageToDisk(byteArray, fileName)
     }
 
-    private fun setUpViewModel() {
+    private fun downloadCountryFlagImages() {
         val countryRepository = CountryRepositoryImpl(RetrofitInstance.apiService)
         val getCountriesUseCase = GetCountryUseCase(countryRepository,"AD" ,this)
         val viewModelFactory = CountryViewModelFactory(getCountriesUseCase)
@@ -119,7 +130,9 @@ class StartupFragment : BaseFragment(), StorageUtils {
                 return View.OnClickListener {
                     dialog.dismiss()
                     // start handle downloading country flag images
-                    setUpViewModel()
+                    //todo revert later
+                    startLoadingAnimation()
+                    downloadCountryFlagImages()
                 }
             }
 
@@ -131,5 +144,30 @@ class StartupFragment : BaseFragment(), StorageUtils {
 
         }
         Utility.showDialog(dialog, R.layout.dialog_image_downloader_confirmation, R.id.image_downloading_button_download, R.id.image_downloading_button_cancel, dialogHandler)
+    }
+
+    fun startLoadingAnimation() {
+        // Hide the openNextScreen button
+        binding.btnOpenIntro.visibility = View.GONE
+
+        // start showing animation
+        val screenHeight = Utility.getDeviceHeight()
+        val animation = ObjectAnimator.ofFloat(binding.appContainer, "translationY", binding.ivAppLogo.y, -screenHeight.toFloat() / 3)
+        animation.duration = 500
+        animation.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {
+            }
+
+            override fun onAnimationEnd(animation: Animator) {
+                binding.loadingBar.visibility = View.VISIBLE
+            }
+
+            override fun onAnimationCancel(animation: Animator) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator) {
+            }
+        })
+        animation.start()
     }
 }
