@@ -1,19 +1,17 @@
 package com.example.presentation
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.domain.model.Country
 import com.example.ocean.Utils.Utility
-import com.example.ocean.data.CountryRepositoryImpl
-import com.example.ocean.data.RetrofitInstance
+import com.example.ocean.data.repository.CountryRepositoryImpl
+import com.example.ocean.data.service.RetrofitInstance
 import com.example.ocean.domain.storage.StorageUtils
 import com.example.ocean.domain.usecase.GetCountryUseCase
+import com.example.ocean.domain.usecase.GetImagesDownloadedFlagUseCase
 import com.example.ocean.domain.usecase.Result
-import com.example.ocean.ui.component.plash.StartupFragment
+import com.example.ocean.domain.usecase.StoreImagesDownloadedFlagUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
@@ -26,44 +24,40 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 
-class CountryViewModel(private val getCountryUseCase: GetCountryUseCase): ViewModel() {
+class CountryViewModel(
+    private val storeImagesDownloadedFlagUseCase: StoreImagesDownloadedFlagUseCase,
+    private val getImagesDownloadedFlagUseCase: GetImagesDownloadedFlagUseCase): ViewModel() {
 
     private val TAG = CountryViewModel::class.java.simpleName
     private val TIME_OUT_MILLIS = 30000L
     private val _isAllFlagsDownloaded = MutableLiveData<Boolean>()
+    val isAllFlagsDownloaded: LiveData<Boolean> = _isAllFlagsDownloaded
+
     private val storageUtils = object : StorageUtils {
         override fun storeFileInLocalStorage(byteArray: ByteArray, fileName: String) {
             Utility.saveImageToDisk(byteArray, fileName)
         }
     }
 
-    init {
-        downloadListOfCountryFlags()
-    }
 
 
-
-    private fun fetchListOfCountryFlags() = viewModelScope.launch {
-//        val countryList = getCountryUseCase.execute()
-//        _countries.value = countryList
-        val result = getCountryUseCase(Unit)
-        if (result is Result.Success) {
-            Log.d(TAG, "fetchCountries: successful result")
-        } else {
-            Log.d(TAG, "fetchCountries: failed result")
+    suspend fun handleDownloadingFlagImages() {
+        val isCountryFlagsDownloaded = getImagesDownloadedFlagUseCase(Unit)
+        if (isCountryFlagsDownloaded is Result.Success) {
+            if (isCountryFlagsDownloaded.data) {
+                _isAllFlagsDownloaded.postValue(true)
+            } else {
+                _isAllFlagsDownloaded.postValue(false)
+            }
         }
-
     }
 
-    private fun updateDownloadingStatus(newStatus: Boolean) {
+    private suspend fun updateDownloadingStatus(newStatus: Boolean) {
+        storeImagesDownloadedFlagUseCase(newStatus)
         _isAllFlagsDownloaded.postValue(newStatus)
     }
 
-    fun getDownloadingStatus(): LiveData<Boolean> {
-        return _isAllFlagsDownloaded
-    }
-
-    private fun downloadListOfCountryFlags() {
+    suspend fun downloadListOfCountryFlags() {
         val countryRepository = CountryRepositoryImpl(RetrofitInstance.apiService)
         val scope = CoroutineScope(Dispatchers.IO)
 
@@ -87,6 +81,7 @@ class CountryViewModel(private val getCountryUseCase: GetCountryUseCase): ViewMo
                 updateDownloadingStatus(true)
                 Log.d(TAG, "All country flags downloaded within the time limit")
             } catch (e: TimeoutCancellationException) {
+                _isAllFlagsDownloaded.postValue(false)
                 Log.e(TAG, "Timeout: Not all country flags were downloaded in time")
             }
         }

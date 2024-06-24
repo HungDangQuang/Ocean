@@ -2,11 +2,7 @@ package com.example.ocean.ui.component.plash
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
-import android.app.Application
 import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,28 +11,19 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
-import com.example.ocean.OceanApplication
 import com.example.ocean.R
 import com.example.ocean.Utils.Utility
-import com.example.ocean.data.CountryRepositoryImpl
-import com.example.ocean.data.RetrofitInstance
+import com.example.ocean.data.repository.DataStoreRepositoryImpl
+import com.example.ocean.data.repository.datasource.DataStorePreferences
 import com.example.ocean.databinding.FragmentStartupBinding
 import com.example.ocean.domain.storage.StorageUtils
-import com.example.ocean.domain.usecase.GetCountryUseCase
+import com.example.ocean.domain.usecase.GetImagesDownloadedFlagUseCase
+import com.example.ocean.domain.usecase.StoreImagesDownloadedFlagUseCase
 import com.example.ocean.ui.base.BaseFragment
 import com.example.ocean.ui.component.introduction.IntroductionFragment
 import com.example.presentation.CountryViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.TimeoutCancellationException
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.buffer
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.runBlocking
 
 class StartupFragment : BaseFragment(), StorageUtils {
 
@@ -57,6 +44,8 @@ class StartupFragment : BaseFragment(), StorageUtils {
 
             } )
         }
+
+        setUpViewModel()
     }
     
     override fun createView(
@@ -71,8 +60,19 @@ class StartupFragment : BaseFragment(), StorageUtils {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // todo start checking whether the images are downloaded
-        if (true) {
-            showResourceDownloadingDialog()
+        vm.isAllFlagsDownloaded.observe(this@StartupFragment.viewLifecycleOwner) {
+            if (it) {
+                Log.d(TAG, "onViewCreated: all images downloaded, updated status in StartupFragment")
+                goToNextScreen()
+            } else {
+                Log.d(TAG, "onViewCreated: flag images are not downloaded")
+                showResourceDownloadingDialog()
+            }
+        }
+        runBlocking {
+            launch {
+                vm.handleDownloadingFlagImages()
+            }
         }
     }
 
@@ -100,26 +100,30 @@ class StartupFragment : BaseFragment(), StorageUtils {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        dialog.dismiss()
+        if (this::dialog.isInitialized) {
+            dialog.dismiss()
+        }
     }
 
     override fun storeFileInLocalStorage(byteArray: ByteArray, fileName: String) {
-//        Log.d(TAG, "storeFileInLocalStorage: start storing image")
+        Log.d(TAG, "storeFileInLocalStorage: start storing image")
         Utility.saveImageToDisk(byteArray, fileName)
     }
 
-    private fun downloadCountryFlagImages() {
-        val countryRepository = CountryRepositoryImpl(RetrofitInstance.apiService)
-        val getCountriesUseCase = GetCountryUseCase(countryRepository,"AD" ,this)
-        val viewModelFactory = CountryViewModelFactory(getCountriesUseCase)
-        vm = ViewModelProvider(this, viewModelFactory)[com.example.presentation.CountryViewModel::class.java]
-
-        vm.getDownloadingStatus().observe(this
-        ) {
-            Log.d(TAG, "setUpViewModel: all images downloaded, updated status in StartupFragment")
-            goToNextScreen()
-        }
-
+    private fun setUpViewModel() {
+        val dataStorePreferences = DataStorePreferences(requireContext())
+        val dataStoreRepositoryImpl = DataStoreRepositoryImpl(dataStorePreferences)
+        val getImagesDownloadedFlagUseCase = GetImagesDownloadedFlagUseCase(dataStoreRepositoryImpl)
+        val storeImagesDownloadedFlagUseCase =
+            StoreImagesDownloadedFlagUseCase(dataStoreRepositoryImpl)
+        val viewModelFactory = CountryViewModelFactory(
+            storeImagesDownloadedFlagUseCase,
+            getImagesDownloadedFlagUseCase
+        )
+        vm = ViewModelProvider(
+            this,
+            viewModelFactory
+        )[com.example.presentation.CountryViewModel::class.java]
     }
 
     private fun showResourceDownloadingDialog() {
@@ -132,7 +136,9 @@ class StartupFragment : BaseFragment(), StorageUtils {
                     // start handle downloading country flag images
                     //todo revert later
                     startLoadingAnimation()
-                    downloadCountryFlagImages()
+                    runBlocking {
+                        vm.downloadListOfCountryFlags()
+                    }
                 }
             }
 

@@ -1,6 +1,5 @@
-package com.example.ocean.data
+package com.example.ocean.data.service
 
-import com.example.ocean.data.service.CountryApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

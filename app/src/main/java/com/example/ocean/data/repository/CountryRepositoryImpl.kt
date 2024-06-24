@@ -1,4 +1,4 @@
-package com.example.ocean.data
+package com.example.ocean.data.repository
 
 import com.example.domain.repository.CountryRepository
 import com.example.ocean.data.service.CountryApiService
