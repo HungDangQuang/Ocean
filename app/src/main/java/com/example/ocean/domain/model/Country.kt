@@ -1,4 +1,6 @@
 package com.example.domain.model
 
-data class Country(val countryFlag: Int,
+import android.graphics.Bitmap
+
+data class Country(val countryFlag: Bitmap,
                    val countryName: String)

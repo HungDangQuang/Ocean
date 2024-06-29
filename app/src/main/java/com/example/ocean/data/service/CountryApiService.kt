@@ -7,6 +7,6 @@ import retrofit2.http.Path
 
 interface CountryApiService {
 
-    @GET("/{country_code}/shiny/64.png")
+    @GET("/{country_code}/flat/64.png")
     suspend fun getCountry(@Path("country_code") countryCode: String): Response<ResponseBody>
 }

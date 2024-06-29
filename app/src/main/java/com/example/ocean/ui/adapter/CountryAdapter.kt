@@ -1,0 +1,95 @@
+package com.example.ocean.ui.adapter
+
+import android.graphics.Bitmap
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.domain.model.Country
+import com.example.ocean.databinding.ItemCountryBinding
+import com.example.ocean.databinding.ItemLoadingBinding
+
+class CountryAdapter(
+    private val countryList: MutableList<Country>
+) : RecyclerView.Adapter<ViewHolder>() {
+
+    companion object {
+        private val VIEW_TYPE_ITEM = 0
+        private val VIEW_TYPE_LOADING = 1
+        private val TAG = CountryAdapter::class.java.simpleName
+    }
+
+    inner class CountryViewHolder(private val itemBinding: ItemCountryBinding) :
+        ViewHolder(itemBinding.root) {
+        fun bind(text: String, bitmap: Bitmap) {
+            itemBinding.tvInputLanguageCountry.text = text
+            itemBinding.imageFlag.setImageBitmap(bitmap)
+        }
+    }
+
+    inner class LoadingViewHolder(itemBinding: ItemLoadingBinding) : ViewHolder(itemBinding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return if (viewType == VIEW_TYPE_ITEM) {
+            val binding = ItemCountryBinding.inflate(inflater, parent, false)
+            CountryViewHolder(binding)
+        } else {
+            val binding = ItemLoadingBinding.inflate(inflater, parent, false)
+            LoadingViewHolder(binding)
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return countryList.size
+    }
+
+    override fun getItemId(position: Int): Long {
+        return countryList[position].hashCode().toLong()
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        if (holder is CountryViewHolder) {
+            // show item
+            val item = countryList[position]
+            holder.bind(item.countryName, item.countryFlag)
+        } else {
+            // show loading bar
+        }
+
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (countryList[position].countryName.isBlank()) VIEW_TYPE_LOADING else VIEW_TYPE_ITEM
+    }
+
+    fun addItems(newItems: List<Country>) {
+        val startPosition = countryList.size
+        countryList.addAll(newItems)
+        notifyItemRangeInserted(startPosition, newItems.size)
+    }
+
+    fun showLoading() {
+        Log.d(TAG, "showLoading")
+        if (countryList.lastOrNull()?.countryName?.isNotBlank() == true || countryList.isEmpty()) {
+            countryList.add(
+                Country(
+                    Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888),
+                    ""
+                )
+            ) // Add a loading item
+            notifyItemInserted(countryList.size - 1)
+        }
+    }
+
+    fun hideLoading() {
+        Log.d(TAG, "hideLoading")
+        if (countryList.lastOrNull()?.countryName?.isBlank() == true) {
+            val position = countryList.size - 1
+            countryList.removeAt(position) // Remove the loading item
+            notifyItemRemoved(position)
+        }
+    }
+
+}

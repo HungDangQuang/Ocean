@@ -17,5 +17,9 @@
         android:label="fragment_vocabulary_addition"
         tools:layout="@layout/fragment_vocabulary_addition" />
 
-
+    <fragment
+        android:id="@+id/countryListFragment"
+        android:name="com.example.ocean.ui.component.details.choose_country.CountryListFragment"
+        android:label="fragment_country_list"
+        tools:layout="@layout/fragment_country_list" />
 </navigation>

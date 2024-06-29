@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.ocean.CountryViewModel
 import com.example.ocean.R
 import com.example.ocean.data.Country
@@ -42,6 +43,10 @@ class VocabularyAdditionFragment : BaseFragment() {
 
         countryViewModel.inputLanguageCountry.value = Country(R.drawable.united_states_flag, "USA")
         countryViewModel.outputLanguageCountry.value = Country(R.drawable.united_kingdom_flag, "UK")
+
+        binding.inputLanguageCountry.cvInputVocabularyLanguage.setOnClickListener {
+            goToNextScreen()
+        }
     }
 
     override fun setUpClickableView() {
@@ -49,7 +54,7 @@ class VocabularyAdditionFragment : BaseFragment() {
     }
 
     override fun goToNextScreen() {
-
+        findNavController().navigate(R.id.countryListFragment)
     }
 
 }
