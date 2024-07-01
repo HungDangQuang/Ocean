@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Ocean" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="Theme.Ocean" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/white</item>
 <!--        <item name="colorPrimaryVariant">@color/purple_700</item>-->
@@ -11,14 +11,6 @@
 <!--        <item name="colorOnSecondary">@color/black</item>-->
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/background_blue</item>
-        <item name="actionBarTheme">@style/ThemeOverlay.Actionbar</item>
         <!-- Customize your theme here. -->
-    </style>
-
-    <style name="ThemeOverlay.Actionbar" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" >
-        <item name="android:textColorPrimary">#000000</item>
-    </style>
-
-    <style name="PlashScreen" parent="Theme.MaterialComponents.Light.NoActionBar">
     </style>
 </resources>
