@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Ocean</string>
 
+    <string name="tool_bar_title_country_list_screen">Select Language</string>
+
     <string name="exit_confirmation_dialog_title">Are you sure?</string>
     <string name="exit_confirmation_dialog_message">Do you want to exit?</string>
 
@@ -18,4 +20,6 @@
     <string name="dialog_image_downloading_title">Download resources</string>
     <string name="dialog_image_downloading_message">Some resources need to be downloaded. For better experience, please wait.</string>
     <string name="dialog_image_downloading_button_download">Download</string>
+
+    <string name="button_apply">Apply</string>
 </resources>
