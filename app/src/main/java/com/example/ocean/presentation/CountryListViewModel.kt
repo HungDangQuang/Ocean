@@ -6,15 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.Country
+import com.example.ocean.data.repository.LocalStorageRepositoryImpl
 import com.example.ocean.domain.repository.LocalStorageRepository
 import kotlinx.coroutines.launch
 
 class CountryListViewModel(
-    private val localStorageRepository: LocalStorageRepository
+    private val localStorageRepository: LocalStorageRepository? = null
 ) : ViewModel() {
 
-    private val _items = MutableLiveData<MutableList<Country>>()
-    val items: LiveData<MutableList<Country>> = _items
+    private val _items = MutableLiveData<MutableList<Country>?>()
+    val items: MutableLiveData<MutableList<Country>?> = _items
 
     companion object {
         private val TAG = CountryListViewModel::class.java.simpleName
@@ -27,7 +28,7 @@ class CountryListViewModel(
     private fun fetchCountryList() {
         Log.d(TAG, "fetchCountryList")
         viewModelScope.launch {
-            val data = localStorageRepository.loadListOfCountries()
+            val data = localStorageRepository?.loadListOfCountries()
             _items.postValue(data)
         }
     }

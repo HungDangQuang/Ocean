@@ -43,26 +43,7 @@ class CountryListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val localStorageRepositoryImpl = LocalStorageRepositoryImpl()
-        val viewModelFactory = CountryListViewModelFactory(
-            localStorageRepositoryImpl
-        )
-        viewModel = ViewModelProvider(
-            this,
-            viewModelFactory
-        )[CountryListViewModel::class.java]
-
-        viewModel.items.observe(viewLifecycleOwner) { it ->
-            allItems.addAll(it)
-            allItems.sortWith(compareBy { it.countryName })
-
-            countryAdapter = CountryAdapter(items, requireContext())
-            binding.rvCountryList.layoutManager = LinearLayoutManager(requireContext())
-            binding.rvCountryList.adapter = countryAdapter
-
-            loadItems(currentPage)
-            setupScrolling()
-        }
+        setUpCountryListViewModel()
     }
 
     private fun setupScrolling() {
@@ -119,6 +100,31 @@ class CountryListFragment : BaseFragment() {
             Log.d(TAG, "button apply is clicked")
         }
 
+    }
+
+    private fun setUpCountryListViewModel() {
+        val localStorageRepositoryImpl = LocalStorageRepositoryImpl()
+        val viewModelFactory = CountryListViewModelFactory(
+            localStorageRepositoryImpl
+        )
+        viewModel = ViewModelProvider(
+            this,
+            viewModelFactory
+        )[CountryListViewModel::class.java]
+
+        viewModel.items.observe(viewLifecycleOwner) { it ->
+            if (it != null) {
+                allItems.addAll(it)
+            }
+            allItems.sortWith(compareBy { it.countryName })
+
+            countryAdapter = CountryAdapter(items, requireContext())
+            binding.rvCountryList.layoutManager = LinearLayoutManager(requireContext())
+            binding.rvCountryList.adapter = countryAdapter
+
+            loadItems(currentPage)
+            setupScrolling()
+        }
     }
 
     override fun goToNextScreen() {

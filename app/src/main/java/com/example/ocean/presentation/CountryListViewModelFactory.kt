@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.ocean.domain.repository.LocalStorageRepository
 
 class CountryListViewModelFactory(
-    private val localStorageRepository: LocalStorageRepository
+    private val localStorageRepository: LocalStorageRepository? = null
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CountryListViewModel::class.java))
