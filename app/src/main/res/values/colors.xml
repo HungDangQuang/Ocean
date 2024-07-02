@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="background_blue">#2B4BF2</color>
+    <color name="color_blue_shiny">#662B4BF2</color>
     <color name="border_gray_color">#66566789</color>
     <color name="text_color_gray">#80151920</color>
 

@@ -56,7 +56,7 @@ class CountryListFragment : BaseFragment() {
             allItems.addAll(it)
             allItems.sortWith(compareBy { it.countryName })
 
-            countryAdapter = CountryAdapter(items)
+            countryAdapter = CountryAdapter(items, requireContext())
             binding.rvCountryList.layoutManager = LinearLayoutManager(requireContext())
             binding.rvCountryList.adapter = countryAdapter
 
@@ -115,6 +115,9 @@ class CountryListFragment : BaseFragment() {
 
 
     override fun setUpClickableView() {
+        binding.rlApply.setOnClickListener {
+            Log.d(TAG, "button apply is clicked")
+        }
 
     }
 

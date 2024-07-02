@@ -1,27 +1,41 @@
 package com.example.ocean.ui.adapter
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.domain.model.Country
+import com.example.ocean.R
 import com.example.ocean.databinding.ItemCountryBinding
 import com.example.ocean.databinding.ItemLoadingBinding
 
 class CountryAdapter(
-    private val countryList: MutableList<Country>
+    private val countryList: MutableList<Country>,
+    private val context: Context
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     companion object {
         private val VIEW_TYPE_ITEM = 0
         private val VIEW_TYPE_LOADING = 1
         private val TAG = CountryAdapter::class.java.simpleName
+        private var selectedItemPosition: Int = RecyclerView.NO_POSITION
     }
 
-    inner class CountryViewHolder(private val itemBinding: ItemCountryBinding) :
+    inner class CountryViewHolder(val itemBinding: ItemCountryBinding) :
         ViewHolder(itemBinding.root) {
+        init {
+            itemBinding.clItem.setOnClickListener {
+                Log.d(TAG, "recyclerview item ${itemBinding.tvInputLanguageCountry.text} is clicked ")
+                notifyItemChanged(selectedItemPosition) // Reset previous selected item
+                selectedItemPosition = adapterPosition
+                notifyItemChanged(selectedItemPosition)
+            }
+        }
+
         fun bind(text: String, bitmap: Bitmap) {
             itemBinding.tvInputLanguageCountry.text = text
             itemBinding.imageFlag.setImageBitmap(bitmap)
@@ -53,6 +67,19 @@ class CountryAdapter(
         if (holder is CountryViewHolder) {
             // show item
             val item = countryList[position]
+            if (position == selectedItemPosition) {
+                holder.itemBinding.clItem.background = ContextCompat.getDrawable(
+                    holder.itemBinding.clItem.context,
+                    R.drawable.bg_ripple_item
+                )
+            } else {
+                holder.itemBinding.clItem.setBackgroundColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.background_gray
+                    )
+                ) // Default background
+            }
             holder.bind(item.countryName, item.countryFlag)
         } else {
             // show loading bar
@@ -92,4 +119,4 @@ class CountryAdapter(
         }
     }
 
-}
+}   

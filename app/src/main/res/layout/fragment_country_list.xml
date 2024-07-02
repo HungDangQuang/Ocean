@@ -34,28 +34,50 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                style="@style/CountryText"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_apply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:gravity="center"
-                android:text="@string/button_apply"
-                android:textColor="@color/color_purple"
-                android:textSize="18dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/bt_apply"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/bt_apply"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/check_icon"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp">
+
+                <RelativeLayout
+                    android:id="@+id/rl_apply"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:padding="10dp"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <TextView
+                        android:id="@+id/tv_apply"
+                        style="@style/CountryText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center"
+                        android:text="@string/button_apply"
+                        android:textColor="@color/color_purple"
+                        android:textSize="17dp"
+                        android:layout_alignParentStart="true"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_apply"
+                        android:layout_width="22dp"
+                        android:layout_height="23dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/check_icon"
+                        android:layout_toEndOf="@id/tv_apply"/>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
