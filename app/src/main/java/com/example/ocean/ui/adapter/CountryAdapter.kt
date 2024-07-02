@@ -119,9 +119,9 @@ class CountryAdapter(
         }
     }
 
-    fun getSelectedItem() : Country {
-        Log.d(TAG, "getSelectingItem")
-        return countryList[selectedItemPosition]
+    fun getSelectedCountryName() : String {
+        Log.d(TAG, "getSelectedItem ${countryList[selectedItemPosition].countryName}")
+        return countryList[selectedItemPosition].countryName
     }
 
 }   

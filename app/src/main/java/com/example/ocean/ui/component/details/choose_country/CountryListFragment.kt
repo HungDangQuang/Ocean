@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.model.Country
 import com.example.ocean.data.repository.LocalStorageRepositoryImpl
@@ -98,6 +99,11 @@ class CountryListFragment : BaseFragment() {
     override fun setUpClickableView() {
         binding.rlApply.setOnClickListener {
             Log.d(TAG, "button apply is clicked")
+
+            // update selected item to view model
+            viewModel.setCurrentCountry(countryAdapter.getSelectedCountryName())
+            // back to previous screen
+            findNavController().popBackStack()
         }
 
     }
@@ -108,7 +114,7 @@ class CountryListFragment : BaseFragment() {
             localStorageRepositoryImpl
         )
         viewModel = ViewModelProvider(
-            this,
+            requireActivity(),
             viewModelFactory
         )[CountryListViewModel::class.java]
 
@@ -129,5 +135,11 @@ class CountryListFragment : BaseFragment() {
 
     override fun goToNextScreen() {
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // reset the flag
+       viewModel.setIsSelectingInputLanguage(false)
     }
 }
