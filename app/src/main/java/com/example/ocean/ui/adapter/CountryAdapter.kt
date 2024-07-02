@@ -19,8 +19,8 @@ class CountryAdapter(
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     companion object {
-        private val VIEW_TYPE_ITEM = 0
-        private val VIEW_TYPE_LOADING = 1
+        private const val VIEW_TYPE_ITEM = 0
+        private const val VIEW_TYPE_LOADING = 1
         private val TAG = CountryAdapter::class.java.simpleName
         private var selectedItemPosition: Int = RecyclerView.NO_POSITION
     }
@@ -29,7 +29,7 @@ class CountryAdapter(
         ViewHolder(itemBinding.root) {
         init {
             itemBinding.clItem.setOnClickListener {
-                Log.d(TAG, "recyclerview item ${itemBinding.tvInputLanguageCountry.text} is clicked ")
+                Log.d(TAG, "recyclerview item ${itemBinding.tvInputLanguageCountry.text} is clicked")
                 notifyItemChanged(selectedItemPosition) // Reset previous selected item
                 selectedItemPosition = adapterPosition
                 notifyItemChanged(selectedItemPosition)
@@ -117,6 +117,11 @@ class CountryAdapter(
             countryList.removeAt(position) // Remove the loading item
             notifyItemRemoved(position)
         }
+    }
+
+    fun getSelectedItem() : Country {
+        Log.d(TAG, "getSelectingItem")
+        return countryList[selectedItemPosition]
     }
 
 }   
