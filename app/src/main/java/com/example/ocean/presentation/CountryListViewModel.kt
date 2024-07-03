@@ -6,12 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.Country
-import com.example.ocean.data.repository.LocalStorageRepositoryImpl
 import com.example.ocean.domain.repository.LocalStorageRepository
+import com.example.ocean.domain.usecase.GetCurrentCountryUseCase
+import com.example.ocean.domain.usecase.Result
+import com.example.ocean.domain.usecase.StoreCurrentCountryUseCase
 import kotlinx.coroutines.launch
 
-class CountryListViewModel(
-    private val localStorageRepository: LocalStorageRepository? = null
+class CountryListViewModel (
+    private val localStorageRepository: LocalStorageRepository? = null,
+    getCurrentInputCountryUseCase: GetCurrentCountryUseCase,
+    private val storeCurrentInputCountryUseCase: StoreCurrentCountryUseCase,
+    getCurrentOutputCountryUseCase: GetCurrentCountryUseCase,
+    private val storeCurrentOutputCountryUseCase: StoreCurrentCountryUseCase
 ) : ViewModel() {
 
     private val _items = MutableLiveData<MutableList<Country>?>()
@@ -32,6 +38,8 @@ class CountryListViewModel(
 
     init {
         fetchCountryList()
+        getCurrentCountry(getCurrentInputCountryUseCase, _currentInputCountry)
+        getCurrentCountry(getCurrentOutputCountryUseCase, _currentOutputCountry)
     }
 
     private fun fetchCountryList() {
@@ -52,4 +60,28 @@ class CountryListViewModel(
         Log.d(TAG, "setIsSelectingInputLanguage")
         _isSelectingInputLanguage.value = value
     }
+
+    private fun getCurrentCountry (
+        getCurrentCountryUseCase: GetCurrentCountryUseCase,
+        currentCountry: MutableLiveData<String?>
+    ) {
+        Log.d(TAG, "getCurrentCountry")
+        viewModelScope.launch {
+            val currentCountryResult = getCurrentCountryUseCase(Unit)
+            if (currentCountryResult is Result.Success) {
+                Log.d(TAG, "getCurrentCountry: result is success")
+                currentCountry.postValue(currentCountryResult.data)
+            } else {
+
+            }
+        }
+    }
+
+    fun storeCurrentCountries() {
+        viewModelScope.launch {
+            storeCurrentInputCountryUseCase(_currentInputCountry.value!!)
+            storeCurrentOutputCountryUseCase(_currentOutputCountry.value!!)
+        }
+    }
+
 }

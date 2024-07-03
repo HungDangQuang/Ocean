@@ -21,4 +21,15 @@ class DataStoreRepositoryImpl(
         return dataStorePreferences.getValue(key, defaultValue)
     }
 
+    override suspend fun setCurrentCountryName(key: Preferences.Key<String>, defaultValue: String) {
+        dataStorePreferences.setValue(key, defaultValue)
+    }
+
+    override suspend fun getCurrentCountryName(
+        key: Preferences.Key<String>,
+        defaultValue: String
+    ): String {
+        return dataStorePreferences.getValue(key, defaultValue)
+    }
+
 }

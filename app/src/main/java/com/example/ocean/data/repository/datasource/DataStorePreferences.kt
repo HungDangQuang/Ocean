@@ -8,9 +8,11 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 
 
-class DataStorePreferences(private val context: Context): LocalDataStore {
+class DataStorePreferences(private val context: Context) : LocalDataStore {
 
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "data_store")
+    companion object {
+        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "data_store")
+    }
 
     override suspend fun <T> getValue(key: Preferences.Key<T>, defaultValue: T): T {
         val prefs = context.dataStore.data.first()

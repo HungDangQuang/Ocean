@@ -12,4 +12,14 @@ interface DataStoreRepository {
         key: Preferences.Key<Boolean>,
         defaultValue: Boolean
     ): Boolean
+
+    suspend fun setCurrentCountryName(
+        key: Preferences.Key<String>,
+        defaultValue: String
+    )
+
+    suspend fun getCurrentCountryName(
+        key: Preferences.Key<String>,
+        defaultValue: String
+    ): String
 }
