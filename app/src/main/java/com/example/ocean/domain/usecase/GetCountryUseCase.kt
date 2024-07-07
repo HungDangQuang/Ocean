@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 class GetCountryUseCase(
     private val countryRepository: CountryRepository,
     private val countryCode: String,
+    private val countryLanguage: String,
     private val storageUtils: StorageUtils,
     coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : UseCase<Unit, Unit>(coroutineDispatcher) {
@@ -21,7 +22,7 @@ class GetCountryUseCase(
                Log.d(TAG, "image $countryCode downloaded successfully")
                try {
                    val imageData = response.body()?.bytes() ?: throw Exception("Error")
-                   storageUtils.storeFileInLocalStorage(imageData, countryCode)
+                   storageUtils.storeFileInLocalStorage(imageData, countryLanguage)
                } catch (e: Exception) {
                    throw e
                }

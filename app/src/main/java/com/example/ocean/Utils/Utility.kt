@@ -68,8 +68,6 @@ class Utility {
             return countriesWithEmojis
         }
 
-        fun getListOfCountryCode(): Array<String> = Locale.getISOCountries()
-
         fun saveImageToDisk(byteArray: ByteArray, fileName: String) {
             val countryFlagFolder = File(OceanApplication.applicationContext().filesDir, "country_flags")
             countryFlagFolder.takeIf { !it.exists() }?.apply { mkdirs() }

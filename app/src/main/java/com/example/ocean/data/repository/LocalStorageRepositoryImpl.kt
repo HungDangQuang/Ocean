@@ -7,7 +7,6 @@ import com.example.ocean.domain.repository.LocalStorageRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.util.Locale
 
 class LocalStorageRepositoryImpl : LocalStorageRepository {
     override suspend fun loadListOfCountries(): MutableList<Country> = withContext(Dispatchers.IO) {
@@ -18,7 +17,7 @@ class LocalStorageRepositoryImpl : LocalStorageRepository {
             list.add(
                 Country(
                     BitmapFactory.decodeFile(file.absolutePath),
-                    Locale("", file.nameWithoutExtension).displayCountry
+                    file.nameWithoutExtension
                 )
             )
         }
