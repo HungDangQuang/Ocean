@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -29,10 +30,22 @@ class CountryAdapter(
         ViewHolder(itemBinding.root) {
         init {
             itemBinding.clItem.setOnClickListener {
-                Log.d(TAG, "recyclerview item ${itemBinding.tvInputLanguageCountry.text} is clicked")
-                notifyItemChanged(selectedItemPosition) // Reset previous selected item
-                selectedItemPosition = adapterPosition
-                notifyItemChanged(selectedItemPosition)
+                Log.d(
+                    TAG,
+                    "recyclerview item ${itemBinding.tvInputLanguageCountry.text} is clicked"
+                )
+                if (adapterPosition == selectedItemPosition) {
+                    Log.d(TAG, "Click the selected item")
+                    Toast.makeText(
+                        context,
+                        R.string.toast_message_selecting_language,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    notifyItemChanged(selectedItemPosition) // Reset previous selected item
+                    selectedItemPosition = adapterPosition
+                    notifyItemChanged(selectedItemPosition)
+                }
             }
         }
 
@@ -119,9 +132,12 @@ class CountryAdapter(
         }
     }
 
-    fun getSelectedCountryName() : String {
+    fun getSelectedCountryName(): String {
         Log.d(TAG, "getSelectedItem ${countryList[selectedItemPosition].countryName}")
         return countryList[selectedItemPosition].countryName
     }
 
+    fun setSelectedCountryPosition(position: Int) {
+        selectedItemPosition = position
+    }
 }   

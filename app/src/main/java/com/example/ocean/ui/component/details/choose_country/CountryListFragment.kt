@@ -67,9 +67,11 @@ class CountryListFragment : BaseFragment() {
             }
 
             override fun loadMoreItems() {
-                isLoading = true
-                loadItems(currentPage)
-                currentPage++
+                if (currentPage != 1) {
+                    isLoading = true
+                    loadItems(currentPage)
+                    currentPage++
+                }
             }
 
         })
@@ -155,11 +157,31 @@ class CountryListFragment : BaseFragment() {
             allItems.sortWith(compareBy { it.countryName })
 
             countryAdapter = CountryAdapter(items, requireContext())
+            countryAdapter.setSelectedCountryPosition(
+                findCountryPosition(
+                    allItems,
+                    getStoredCountryName()
+                )
+            )
             binding.rvCountryList.layoutManager = LinearLayoutManager(requireContext())
             binding.rvCountryList.adapter = countryAdapter
 
             loadItems(currentPage)
             setupScrolling()
+        }
+    }
+
+    private fun findCountryPosition(countryList: List<Country>, countryName: String): Int {
+        return countryList.indexOfFirst {
+            it.countryName == countryName
+        }
+    }
+
+    private fun getStoredCountryName(): String {
+        return if (viewModel.isSelectingInputLanguage.value!!) {
+            viewModel.currentInputCountry.value!!
+        } else {
+            viewModel.currentOutputCountry.value!!
         }
     }
 
@@ -170,8 +192,8 @@ class CountryListFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         // reset the flag
-       viewModel.setIsSelectingInputLanguage(false)
+        viewModel.setIsSelectingInputLanguage(false)
         // store the current countries
-       viewModel.storeCurrentCountries()
+        viewModel.storeCurrentCountries()
     }
 }

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.ocean.Utils.Constants
 import com.example.ocean.Utils.Utility
 import com.example.ocean.data.repository.CountryRepositoryImpl
 import com.example.ocean.data.service.RetrofitInstance
@@ -26,7 +27,8 @@ import kotlinx.coroutines.withTimeout
 
 class CountryViewModel(
     private val storeImagesDownloadedFlagUseCase: StoreImagesDownloadedFlagUseCase,
-    private val getImagesDownloadedFlagUseCase: GetImagesDownloadedFlagUseCase): ViewModel() {
+    private val getImagesDownloadedFlagUseCase: GetImagesDownloadedFlagUseCase
+) : ViewModel() {
 
     private val TAG = CountryViewModel::class.java.simpleName
     private val TIME_OUT_MILLIS = 30000L
@@ -38,8 +40,6 @@ class CountryViewModel(
             Utility.saveImageToDisk(byteArray, fileName)
         }
     }
-
-
 
     suspend fun handleDownloadingFlagImages() {
         val isCountryFlagsDownloaded = getImagesDownloadedFlagUseCase(Unit)
@@ -62,11 +62,11 @@ class CountryViewModel(
         val scope = CoroutineScope(Dispatchers.IO)
 
         scope.launch {
-            val deferredResults = Utility.getListOfCountryCode().asFlow().map { countryCode ->
+            val deferredResults = Constants.supportedLanguageList.asFlow().map { country ->
                 async {
-                    Log.d(TAG, "downloadListOfCountryFlag: $countryCode")
+                    Log.d(TAG, "downloadListOfCountryFlag: $country")
                     val getCountryUseCase =
-                        GetCountryUseCase(countryRepository, countryCode, storageUtils)
+                        GetCountryUseCase(countryRepository, country.countryCode, country.language, storageUtils)
                     getCountryUseCase(Unit)
                 }
             }
