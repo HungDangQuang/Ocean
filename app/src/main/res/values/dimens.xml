@@ -2,8 +2,11 @@
 <resources>
     <dimen name="logo_text_size">30dp</dimen>
     <dimen name="margin_s">20dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
     <dimen name="next_icon_size">50dp</dimen>
     <dimen name="margin_50">50dp</dimen>
+    <dimen name="padding_10">10dp</dimen>
+    <dimen name="padding_20">20dp</dimen>
     <dimen name="padding_30">30dp</dimen>
     <dimen name="margin_100">100dp</dimen>
     <dimen name="corner_radius">10dp</dimen>

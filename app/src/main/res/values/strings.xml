@@ -24,4 +24,7 @@
     <string name="button_apply">Apply</string>
 
     <string name="toast_message_selecting_language">You are selecting this language</string>
+
+    <string name="text_input_hint">Enter text here</string>
+    <string name="text_translate">Translate</string>
 </resources>
