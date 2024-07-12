@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.ocean.domain.repository.LocalStorageRepository
 import com.example.ocean.domain.usecase.GetCurrentCountryUseCase
 import com.example.ocean.domain.usecase.StoreCurrentCountryUseCase
+import com.example.ocean.domain.usecase.TranslateTextUseCase
 
 class CountryListViewModelFactory(
     private val localStorageRepository: LocalStorageRepository? = null,
@@ -12,6 +13,7 @@ class CountryListViewModelFactory(
     private val storeCurrentInputCountryUseCase: StoreCurrentCountryUseCase,
     private val getCurrentOutputCountryUseCase: GetCurrentCountryUseCase,
     private val storeCurrentOutputCountryUseCase: StoreCurrentCountryUseCase,
+    private val translateTextUseCase: TranslateTextUseCase
 
     ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -21,7 +23,8 @@ class CountryListViewModelFactory(
                 getCurrentInputCountryUseCase,
                 storeCurrentInputCountryUseCase,
                 getCurrentOutputCountryUseCase,
-                storeCurrentOutputCountryUseCase
+                storeCurrentOutputCountryUseCase,
+                translateTextUseCase
             ) as T
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -13,4 +13,12 @@ object RetrofitInstance {
             .build()
             .create(CountryApiService::class.java)
     }
+
+    val translationService: TranslationApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://655.mtis.workers.dev/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(TranslationApiService::class.java)
+    }
 }

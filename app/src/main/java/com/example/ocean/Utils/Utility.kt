@@ -108,6 +108,10 @@ class Utility {
         fun getDeviceWidth() = Resources.getSystem().displayMetrics.widthPixels
         fun getDeviceHeight() = Resources.getSystem().displayMetrics.heightPixels
 
+        fun getLanguageCodeBasedOnName(language: String) : String {
+            return Constants.supportedLanguageList.find { it.language == language }?.languageCode ?: ""
+        }
+
 
         interface DialogHandler {
             fun onPositiveClick(): OnClickListener

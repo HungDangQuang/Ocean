@@ -6,10 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.Country
+import com.example.ocean.Utils.Utility
 import com.example.ocean.domain.repository.LocalStorageRepository
 import com.example.ocean.domain.usecase.GetCurrentCountryUseCase
 import com.example.ocean.domain.usecase.Result
 import com.example.ocean.domain.usecase.StoreCurrentCountryUseCase
+import com.example.ocean.domain.usecase.TranslateTextUseCase
+import com.example.ocean.presentation.mapper.TranslationMapper
+import com.example.ocean.presentation.mapper.TranslationRequestDTO
 import kotlinx.coroutines.launch
 
 class CountryListViewModel (
@@ -17,7 +21,8 @@ class CountryListViewModel (
     getCurrentInputCountryUseCase: GetCurrentCountryUseCase,
     private val storeCurrentInputCountryUseCase: StoreCurrentCountryUseCase,
     getCurrentOutputCountryUseCase: GetCurrentCountryUseCase,
-    private val storeCurrentOutputCountryUseCase: StoreCurrentCountryUseCase
+    private val storeCurrentOutputCountryUseCase: StoreCurrentCountryUseCase,
+    private val translationUseCase: TranslateTextUseCase
 ) : ViewModel() {
 
     private val _items = MutableLiveData<MutableList<Country>?>()
@@ -31,6 +36,9 @@ class CountryListViewModel (
 
     private val _isSelectingInputLanguage = MutableLiveData<Boolean>()
     val isSelectingInputLanguage: LiveData<Boolean> = _isSelectingInputLanguage
+
+    private val _translatedText = MutableLiveData<String>()
+    val translatedText: LiveData<String> = _translatedText
 
     companion object {
         private val TAG = CountryListViewModel::class.java.simpleName
@@ -83,5 +91,21 @@ class CountryListViewModel (
             storeCurrentOutputCountryUseCase(_currentOutputCountry.value!!)
         }
     }
+
+    fun translateText(text: String) {
+        viewModelScope.launch {
+            val translationRequestDto = TranslationRequestDTO(
+                text,
+                Utility.getLanguageCodeBasedOnName(_currentInputCountry.value!!),
+                Utility.getLanguageCodeBasedOnName(_currentOutputCountry.value!!)
+            )
+            val request = TranslationMapper().mapToDomain(translationRequestDto)
+            val result = translationUseCase(request)
+            if (result is Result.Success) {
+                _translatedText.postValue(result.data)
+            }
+        }
+    }
+
 
 }

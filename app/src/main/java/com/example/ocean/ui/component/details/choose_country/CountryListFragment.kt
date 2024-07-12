@@ -14,11 +14,14 @@ import com.example.domain.model.Country
 import com.example.ocean.Utils.Constants
 import com.example.ocean.data.repository.DataStoreRepositoryImpl
 import com.example.ocean.data.repository.LocalStorageRepositoryImpl
+import com.example.ocean.data.repository.TranslationRepositoryImpl
 import com.example.ocean.data.repository.datasource.DataStorePreferences
+import com.example.ocean.data.service.RetrofitInstance
 import com.example.ocean.databinding.FragmentCountryListBinding
 import com.example.ocean.domain.storage.DataStoreKey
 import com.example.ocean.domain.usecase.GetCurrentCountryUseCase
 import com.example.ocean.domain.usecase.StoreCurrentCountryUseCase
+import com.example.ocean.domain.usecase.TranslateTextUseCase
 import com.example.ocean.presentation.CountryListViewModel
 import com.example.ocean.presentation.CountryListViewModelFactory
 import com.example.ocean.ui.adapter.CountryAdapter
@@ -138,12 +141,17 @@ class CountryListFragment : BaseFragment() {
             dataStoreRepositoryImpl
         )
         val localStorageRepositoryImpl = LocalStorageRepositoryImpl()
+
+        val translationRepositoryImpl = TranslationRepositoryImpl(RetrofitInstance.translationService)
+        val translateTextUseCase = TranslateTextUseCase(translationRepositoryImpl)
+
         val viewModelFactory = CountryListViewModelFactory(
             localStorageRepositoryImpl,
             getCurrentInputCountryUseCase,
             storeCurrentInputCountryUseCase,
             getCurrentOutputCountryUseCase,
-            storeCurrentOutputCountryUseCase
+            storeCurrentOutputCountryUseCase,
+            translateTextUseCase
         )
         viewModel = ViewModelProvider(
             requireActivity(),

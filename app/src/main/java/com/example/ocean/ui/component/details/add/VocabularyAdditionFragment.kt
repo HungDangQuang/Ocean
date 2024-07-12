@@ -11,11 +11,14 @@ import com.example.ocean.R
 import com.example.ocean.Utils.Constants
 import com.example.ocean.data.repository.DataStoreRepositoryImpl
 import com.example.ocean.data.repository.LocalStorageRepositoryImpl
+import com.example.ocean.data.repository.TranslationRepositoryImpl
 import com.example.ocean.data.repository.datasource.DataStorePreferences
+import com.example.ocean.data.service.RetrofitInstance
 import com.example.ocean.databinding.FragmentVocabularyAdditionBinding
 import com.example.ocean.domain.storage.DataStoreKey
 import com.example.ocean.domain.usecase.GetCurrentCountryUseCase
 import com.example.ocean.domain.usecase.StoreCurrentCountryUseCase
+import com.example.ocean.domain.usecase.TranslateTextUseCase
 import com.example.ocean.presentation.CountryListViewModel
 import com.example.ocean.presentation.CountryListViewModelFactory
 import com.example.ocean.ui.base.BaseFragment
@@ -45,6 +48,10 @@ class VocabularyAdditionFragment : BaseFragment() {
             countryListViewModel.setIsSelectingInputLanguage(false)
             goToNextScreen()
         }
+
+        binding.btTranslate.setOnClickListener {
+            countryListViewModel.translateText(binding.tiInputText.text.toString())
+        }
     }
 
     override fun goToNextScreen() {
@@ -68,12 +75,17 @@ class VocabularyAdditionFragment : BaseFragment() {
         val storeCurrentInputCountryUseCase = StoreCurrentCountryUseCase(DataStoreKey.KEY_CURRENT_INPUT_COUNTRY_NAME, dataStoreRepositoryImpl)
         val storeCurrentOutputCountryUseCase = StoreCurrentCountryUseCase(DataStoreKey.KEY_CURRENT_OUTPUT_COUNTRY_NAME, dataStoreRepositoryImpl)
         val localStorageRepositoryImpl = LocalStorageRepositoryImpl()
+
+        val translationRepositoryImpl = TranslationRepositoryImpl(RetrofitInstance.translationService)
+        val translateTextUseCase = TranslateTextUseCase(translationRepositoryImpl)
+
         val viewModelFactory = CountryListViewModelFactory(
             localStorageRepositoryImpl,
             getCurrentInputCountryUseCase,
             storeCurrentInputCountryUseCase,
             getCurrentOutputCountryUseCase,
-            storeCurrentOutputCountryUseCase
+            storeCurrentOutputCountryUseCase,
+            translateTextUseCase
         )
         countryListViewModel = ViewModelProvider(
             requireActivity(),
@@ -88,6 +100,10 @@ class VocabularyAdditionFragment : BaseFragment() {
         countryListViewModel.currentOutputCountry.observe(viewLifecycleOwner) {
             Log.d(TAG, "update the value of the current output country")
             binding.outputLanguageCountry.tvInputLanguageCountry.text = it
+        }
+
+        countryListViewModel.translatedText.observe(viewLifecycleOwner) {
+            Log.d(TAG, "setUpCountryListViewModel: translated text $it")
         }
 
     }
