@@ -25,7 +25,6 @@ import com.example.ocean.domain.usecase.TranslateTextUseCase
 import com.example.ocean.presentation.CountryListViewModel
 import com.example.ocean.presentation.CountryListViewModelFactory
 import com.example.ocean.ui.adapter.CountryAdapter
-import com.example.ocean.ui.adapter.PaginationScrollListener
 import com.example.ocean.ui.base.BaseFragment
 import kotlin.math.ceil
 

@@ -38,6 +38,11 @@ class VocabularyAdditionFragment : BaseFragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpTextChangedBehavior()
+    }
+
     override fun setUpClickableView() {
         binding.inputLanguageCountry.cvInputVocabularyLanguage.setOnClickListener {
             countryListViewModel.setIsSelectingInputLanguage(true)
@@ -52,6 +57,14 @@ class VocabularyAdditionFragment : BaseFragment() {
         binding.btTranslate.setOnClickListener {
             countryListViewModel.translateText(binding.tiInputText.text.toString())
         }
+
+        binding.btDeleteText.setOnClickListener {
+            binding.tiInputText.setText("")
+        }
+    }
+
+    private fun setUpTextChangedBehavior() {
+        binding.tiInputText.addTextChangedListener(object : TextChangedListener(binding.btDeleteText){})
     }
 
     override fun goToNextScreen() {

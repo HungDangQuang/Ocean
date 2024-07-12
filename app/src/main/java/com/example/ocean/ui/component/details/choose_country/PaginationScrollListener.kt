@@ -1,4 +1,4 @@
-package com.example.ocean.ui.adapter
+package com.example.ocean.ui.component.details.choose_country
 
 
 import androidx.recyclerview.widget.LinearLayoutManager

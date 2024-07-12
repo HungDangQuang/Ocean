@@ -71,7 +71,7 @@
           android:inputType="textMultiLine"
           android:gravity="top"
           android:hint="@string/text_input_hint"
-          android:paddingEnd="35dp"
+          android:paddingEnd="45dp"
           android:paddingStart="@dimen/padding_10"
           android:paddingTop="@dimen/padding_10"
           android:paddingBottom="80dp"
@@ -94,13 +94,14 @@
 
       <ImageView
           android:id="@+id/bt_delete_text"
-          android:layout_width="10dp"
-          android:layout_height="10dp"
+          android:layout_width="18dp"
+          android:layout_height="18dp"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintTop_toTopOf="parent"
           android:layout_marginEnd="@dimen/margin_s"
-          android:layout_marginTop="@dimen/margin_10"
-          android:src="@drawable/icon_delete"/>
+          android:layout_marginTop="@dimen/margin_15"
+          android:src="@drawable/icon_delete"
+          android:visibility="invisible"/>
 
    </androidx.constraintlayout.widget.ConstraintLayout>
 
