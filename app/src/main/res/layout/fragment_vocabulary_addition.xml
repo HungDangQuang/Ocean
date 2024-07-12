@@ -55,6 +55,7 @@
        app:layout_constraintDimensionRatio="2.5:1"/>
 
    <androidx.constraintlayout.widget.ConstraintLayout
+       android:id="@+id/cl_input_text"
        android:layout_width="match_parent"
        android:layout_height="0dp"
        app:layout_constraintHeight_percent="0.35"
@@ -79,18 +80,39 @@
           android:textCursorDrawable="@drawable/text_cursor"
           android:textSize="16sp" />
 
-      <com.google.android.material.button.MaterialButton
-          android:id="@+id/bt_translate"
-          android:layout_width="120dp"
-          android:layout_height="50dp"
+      <androidx.constraintlayout.widget.ConstraintLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
-          android:layout_margin="@dimen/margin_s"
-          android:text="@string/text_translate"
-          app:cornerRadius="5dp"
-          android:textColor="@android:color/white"
-          app:backgroundTint="@color/background_yellow"
-          android:textAllCaps="false"/>
+          android:layout_margin="@dimen/margin_s">
+
+         <com.google.android.material.button.MaterialButton
+             android:id="@+id/bt_translate"
+             android:layout_width="120dp"
+             android:layout_height="50dp"
+             app:layout_constraintBottom_toBottomOf="parent"
+             app:layout_constraintEnd_toEndOf="parent"
+             android:text="@string/text_translate"
+             app:cornerRadius="5dp"
+             android:textColor="@android:color/white"
+             app:backgroundTint="@color/background_yellow"
+             android:textAllCaps="false"/>
+
+         <ProgressBar
+             android:id="@+id/small_progress_bar"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:indeterminate="true"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toTopOf="parent"
+             app:layout_constraintBottom_toBottomOf="parent"
+             android:indeterminateTint="@color/background_blue"
+             android:visibility="gone"/>
+
+      </androidx.constraintlayout.widget.ConstraintLayout>
+
 
       <ImageView
           android:id="@+id/bt_delete_text"
@@ -102,6 +124,53 @@
           android:layout_marginTop="@dimen/margin_15"
           android:src="@drawable/icon_delete"
           android:visibility="invisible"/>
+
+   </androidx.constraintlayout.widget.ConstraintLayout>
+
+   <ProgressBar
+       android:id="@+id/progressBar"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:indeterminate="true"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@id/cl_input_text"
+       android:indeterminateTint="@color/background_blue"
+       android:visibility="gone"/>
+
+   <androidx.constraintlayout.widget.ConstraintLayout
+       android:id="@+id/cl_output_text"
+       android:layout_width="match_parent"
+       android:layout_height="0dp"
+       app:layout_constraintHeight_percent="0.35"
+       app:layout_constraintTop_toBottomOf="@id/cl_input_text"
+       android:padding="@dimen/padding_20"
+       android:visibility="gone">
+
+      <TextView
+          android:id="@+id/tv_output_text"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          app:layout_constraintStart_toStartOf="parent"
+          android:paddingEnd="45dp"
+          android:paddingStart="@dimen/padding_10"
+          android:paddingTop="@dimen/padding_10"
+          android:paddingBottom="80dp"
+          android:gravity="top"
+          tools:text="TEXT RESULT"
+          android:background="@drawable/background_output_text"
+          android:textColor="@color/white"
+          android:textSize="16sp"/>
+
+      <ImageView
+          android:id="@+id/bt_delete_output_text"
+          android:layout_width="18dp"
+          android:layout_height="18dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          android:layout_marginEnd="@dimen/margin_s"
+          android:layout_marginTop="@dimen/margin_15"
+          android:src="@drawable/icon_delete_white" />
 
    </androidx.constraintlayout.widget.ConstraintLayout>
 
