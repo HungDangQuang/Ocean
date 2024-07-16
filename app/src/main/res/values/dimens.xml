@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="logo_text_size">30dp</dimen>
-    <dimen name="margin_s">25dp</dimen>
+    <dimen name="margin_s">20dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_15">15dp</dimen>
     <dimen name="next_icon_size">50dp</dimen>
     <dimen name="margin_50">50dp</dimen>
+    <dimen name="padding_10">10dp</dimen>
+    <dimen name="padding_20">20dp</dimen>
     <dimen name="padding_30">30dp</dimen>
     <dimen name="margin_100">100dp</dimen>
-    <dimen name="elevation_10">10dp</dimen>
     <dimen name="corner_radius">10dp</dimen>
     <dimen name="menu_item_size">40dp</dimen>
     <dimen name="menu_item_text_size">15dp</dimen>
     <dimen name="menu_next_icon_size">30dp</dimen>
+    <dimen name="country_text_size">15dp</dimen>
+
+    <dimen name="dialog_title_text_size">22dp</dimen>
+    <dimen name="dialog_text_content_spacing">10dp</dimen>
+    <dimen name="dialog_message_text_size">15dp</dimen>
+
 </resources>

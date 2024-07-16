@@ -1,4 +1,4 @@
-package com.example.ocean
+package com.example.ocean.ui.adapter
 
 import android.graphics.drawable.Drawable
 

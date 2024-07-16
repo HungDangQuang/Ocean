@@ -2,4 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="background_blue">#2B4BF2</color>
+    <color name="color_blue_shiny">#662B4BF2</color>
+    <color name="border_gray_color">#66566789</color>
+    <color name="text_color_gray">#80151920</color>
+
+    <color name="background_gray">#EEEDEB</color>
+
+    <color name="color_purple">#4A249D</color>
+
+    <color name="background_yellow">#c46f2b</color>
 </resources>

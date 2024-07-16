@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.component.details.add.VocabularyAdditionFragment">
+
+   <View
+       android:id="@+id/v_spacing_top"
+       android:layout_width="match_parent"
+       android:layout_height="0dp"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHeight_percent="0.1"/>
+
+   <View
+       android:id="@+id/v_spacing_left"
+       android:layout_width="0dp"
+       android:layout_height="match_parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@id/v_spacing_top"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintWidth_percent="0.1"/>
+
+   <View
+       android:id="@+id/v_spacing_right"
+       android:layout_width="0dp"
+       android:layout_height="match_parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintTop_toBottomOf="@id/v_spacing_top"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintWidth_percent="0.1"/>
+
+   <include
+       android:id="@+id/input_language_country"
+       layout="@layout/layout_language_country"
+       android:layout_width="0dp"
+       android:layout_height="0dp"
+       app:layout_constraintStart_toEndOf="@id/v_spacing_left"
+       app:layout_constraintTop_toBottomOf="@id/v_spacing_top"
+       app:layout_constraintWidth_percent="0.25"
+       app:layout_constraintDimensionRatio="2.5:1" />
+
+   <include
+       android:id="@+id/output_language_country"
+       layout="@layout/layout_language_country"
+       android:layout_width="0dp"
+       android:layout_height="0dp"
+       app:layout_constraintTop_toBottomOf="@id/v_spacing_top"
+       app:layout_constraintEnd_toStartOf="@id/v_spacing_right"
+       app:layout_constraintWidth_percent="0.25"
+       app:layout_constraintDimensionRatio="2.5:1"/>
+
+   <androidx.constraintlayout.widget.ConstraintLayout
+       android:id="@+id/cl_input_text"
+       android:layout_width="match_parent"
+       android:layout_height="0dp"
+       app:layout_constraintHeight_percent="0.35"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@id/output_language_country"
+       android:padding="@dimen/padding_20">
+
+      <com.google.android.material.textfield.TextInputEditText
+          android:id="@+id/ti_input_text"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          android:inputType="textMultiLine"
+          android:gravity="top"
+          android:hint="@string/text_input_hint"
+          android:paddingEnd="45dp"
+          android:paddingStart="@dimen/padding_10"
+          android:paddingTop="@dimen/padding_10"
+          android:paddingBottom="80dp"
+          android:background="@drawable/background_edit_text"
+          android:textCursorDrawable="@drawable/text_cursor"
+          android:textSize="16sp" />
+
+      <androidx.constraintlayout.widget.ConstraintLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          android:layout_margin="@dimen/margin_s">
+
+         <com.google.android.material.button.MaterialButton
+             android:id="@+id/bt_translate"
+             android:layout_width="120dp"
+             android:layout_height="50dp"
+             app:layout_constraintBottom_toBottomOf="parent"
+             app:layout_constraintEnd_toEndOf="parent"
+             android:text="@string/text_translate"
+             app:cornerRadius="5dp"
+             android:textColor="@android:color/white"
+             app:backgroundTint="@color/background_yellow"
+             android:textAllCaps="false"/>
+
+         <ProgressBar
+             android:id="@+id/small_progress_bar"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:indeterminate="true"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toTopOf="parent"
+             app:layout_constraintBottom_toBottomOf="parent"
+             android:indeterminateTint="@color/background_blue"
+             android:visibility="gone"/>
+
+      </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+      <ImageView
+          android:id="@+id/bt_delete_text"
+          android:layout_width="18dp"
+          android:layout_height="18dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          android:layout_marginEnd="@dimen/margin_s"
+          android:layout_marginTop="@dimen/margin_15"
+          android:src="@drawable/icon_delete"
+          android:visibility="invisible"/>
+
+   </androidx.constraintlayout.widget.ConstraintLayout>
+
+   <ProgressBar
+       android:id="@+id/progressBar"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:indeterminate="true"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@id/cl_input_text"
+       android:indeterminateTint="@color/background_blue"
+       android:visibility="gone"/>
+
+   <androidx.constraintlayout.widget.ConstraintLayout
+       android:id="@+id/cl_output_text"
+       android:layout_width="match_parent"
+       android:layout_height="0dp"
+       app:layout_constraintHeight_percent="0.35"
+       app:layout_constraintTop_toBottomOf="@id/cl_input_text"
+       android:padding="@dimen/padding_20"
+       android:visibility="gone">
+
+      <TextView
+          android:id="@+id/tv_output_text"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          app:layout_constraintStart_toStartOf="parent"
+          android:paddingEnd="45dp"
+          android:paddingStart="@dimen/padding_10"
+          android:paddingTop="@dimen/padding_10"
+          android:paddingBottom="80dp"
+          android:gravity="top"
+          tools:text="TEXT RESULT"
+          android:background="@drawable/background_output_text"
+          android:textColor="@color/white"
+          android:textSize="16sp"/>
+
+      <ImageView
+          android:id="@+id/bt_delete_output_text"
+          android:layout_width="18dp"
+          android:layout_height="18dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          android:layout_marginEnd="@dimen/margin_s"
+          android:layout_marginTop="@dimen/margin_15"
+          android:src="@drawable/icon_delete_white" />
+
+   </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
