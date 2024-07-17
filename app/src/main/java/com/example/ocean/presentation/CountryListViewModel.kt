@@ -107,5 +107,10 @@ class CountryListViewModel (
         }
     }
 
+    fun revertInOutLanguage() {
+        val temp = _currentInputCountry.value
+        _currentInputCountry.value = _currentOutputCountry.value
+        _currentOutputCountry.value = temp
+    }
 
 }
