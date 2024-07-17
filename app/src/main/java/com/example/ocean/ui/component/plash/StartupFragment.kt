@@ -10,27 +10,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
-import androidx.lifecycle.ViewModelProvider
 import com.example.ocean.R
 import com.example.ocean.Utils.Utility
-import com.example.ocean.data.repository.DataStoreRepositoryImpl
-import com.example.ocean.data.repository.datasource.DataStorePreferences
 import com.example.ocean.databinding.FragmentStartupBinding
 import com.example.ocean.domain.storage.StorageUtils
-import com.example.ocean.domain.usecase.GetImagesDownloadedFlagUseCase
-import com.example.ocean.domain.usecase.StoreImagesDownloadedFlagUseCase
 import com.example.ocean.ui.base.BaseFragment
 import com.example.ocean.ui.component.introduction.IntroductionFragment
-import com.example.presentation.CountryViewModelFactory
+import com.example.presentation.CountryViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-
+import androidx.fragment.app.viewModels
+@AndroidEntryPoint
 class StartupFragment : BaseFragment(), StorageUtils {
 
     private lateinit var binding: FragmentStartupBinding
     private val TAG = StartupFragment::class.simpleName
     private lateinit var dialog: Dialog
-    private lateinit var vm: com.example.presentation.CountryViewModel
+    private val viewModel: CountryViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +41,6 @@ class StartupFragment : BaseFragment(), StorageUtils {
 
             } )
         }
-
-        setUpViewModel()
     }
     
     override fun createView(
@@ -60,7 +55,7 @@ class StartupFragment : BaseFragment(), StorageUtils {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // todo start checking whether the images are downloaded
-        vm.isAllFlagsDownloaded.observe(this@StartupFragment.viewLifecycleOwner) {
+        viewModel.isAllFlagsDownloaded.observe(this@StartupFragment.viewLifecycleOwner) {
             if (it) {
                 Log.d(TAG, "onViewCreated: all images downloaded, updated status in StartupFragment")
                 goToNextScreen()
@@ -71,7 +66,7 @@ class StartupFragment : BaseFragment(), StorageUtils {
         }
         runBlocking {
             launch {
-                vm.handleDownloadingFlagImages()
+                viewModel.handleDownloadingFlagImages()
             }
         }
     }
@@ -110,21 +105,6 @@ class StartupFragment : BaseFragment(), StorageUtils {
         Utility.saveImageToDisk(byteArray, fileName)
     }
 
-    private fun setUpViewModel() {
-        val dataStorePreferences = DataStorePreferences(requireContext())
-        val dataStoreRepositoryImpl = DataStoreRepositoryImpl(dataStorePreferences)
-        val getImagesDownloadedFlagUseCase = GetImagesDownloadedFlagUseCase(dataStoreRepositoryImpl)
-        val storeImagesDownloadedFlagUseCase =
-            StoreImagesDownloadedFlagUseCase(dataStoreRepositoryImpl)
-        val viewModelFactory = CountryViewModelFactory(
-            storeImagesDownloadedFlagUseCase,
-            getImagesDownloadedFlagUseCase
-        )
-        vm = ViewModelProvider(
-            this,
-            viewModelFactory
-        )[com.example.presentation.CountryViewModel::class.java]
-    }
 
     private fun showResourceDownloadingDialog() {
         // show dialog
@@ -137,7 +117,7 @@ class StartupFragment : BaseFragment(), StorageUtils {
                     //todo revert later
                     startLoadingAnimation()
                     runBlocking {
-                        vm.downloadListOfCountryFlags()
+                        viewModel.downloadListOfCountryFlags()
                     }
                 }
             }

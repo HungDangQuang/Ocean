@@ -13,6 +13,7 @@ import com.example.ocean.domain.usecase.GetCountryUseCase
 import com.example.ocean.domain.usecase.GetImagesDownloadedFlagUseCase
 import com.example.ocean.domain.usecase.Result
 import com.example.ocean.domain.usecase.StoreImagesDownloadedFlagUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
@@ -24,8 +25,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
+import javax.inject.Inject
+import javax.inject.Named
 
-class CountryViewModel(
+@HiltViewModel
+class CountryViewModel @Inject constructor(
     private val storeImagesDownloadedFlagUseCase: StoreImagesDownloadedFlagUseCase,
     private val getImagesDownloadedFlagUseCase: GetImagesDownloadedFlagUseCase
 ) : ViewModel() {
