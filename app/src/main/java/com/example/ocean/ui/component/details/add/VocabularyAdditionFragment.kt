@@ -96,6 +96,10 @@ class VocabularyAdditionFragment : BaseFragment() {
             binding.clOutputText.visibility = View.GONE
             binding.tvOutputText.text = ""
         }
+
+        binding.ivRevert.setOnClickListener {
+            countryListViewModel.revertInOutLanguage()
+        }
     }
 
     private fun setUpTextChangedBehavior() {
