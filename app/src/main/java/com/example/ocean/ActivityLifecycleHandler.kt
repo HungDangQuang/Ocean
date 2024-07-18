@@ -3,37 +3,39 @@ package com.example.ocean
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import com.example.ocean.OceanApplication.Companion.logger
+import android.util.Log
 
 class ActivityLifecycleHandler :
     Application.ActivityLifecycleCallbacks {
 
+        private val TAG = ActivityLifecycleHandler::class.java.simpleName
+
     override fun onActivityPaused(p0: Activity) {
-        logger.log("onActivityPaused at ${p0.localClassName}")
+        Log.d(TAG, "onActivityPaused at ${p0.localClassName}")
     }
 
     override fun onActivityStarted(p0: Activity) {
-        logger.log("onActivityStarted at ${p0.localClassName}")
+        Log.d(TAG, "onActivityStarted at ${p0.localClassName}")
     }
 
     override fun onActivityDestroyed(p0: Activity) {
-        logger.log("onActivityDestroyed at ${p0.localClassName}")
+        Log.d(TAG, "onActivityDestroyed at ${p0.localClassName}")
     }
 
     override fun onActivitySaveInstanceState(p0: Activity, p1: Bundle) {
-        logger.log("onActivitySaveInstanceState at ${p0.localClassName}")
+        Log.d(TAG, "onActivitySaveInstanceState at ${p0.localClassName}")
     }
 
     override fun onActivityStopped(p0: Activity) {
-        logger.log("onActivityStopped at ${p0.localClassName}")
+        Log.d(TAG, "onActivityStopped at ${p0.localClassName}")
     }
 
     override fun onActivityCreated(p0: Activity, p1: Bundle?) {
-        logger.log("onActivityCreated at ${p0.localClassName}")
+        Log.d(TAG, "onActivityCreated at ${p0.localClassName}")
     }
 
     override fun onActivityResumed(p0: Activity) {
-        logger.log("onActivityCreated at ${p0.localClassName}")
+        Log.d(TAG, "onActivityCreated at ${p0.localClassName}")
     }
 
 }

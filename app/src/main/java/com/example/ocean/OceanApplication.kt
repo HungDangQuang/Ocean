@@ -13,8 +13,6 @@ class OceanApplication : Application() {
 
     companion object {
         private var instance:OceanApplication? = null
-        lateinit var logger:Logger
-
         fun applicationContext() : Context {
             return instance!!.applicationContext
         }
@@ -22,7 +20,6 @@ class OceanApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        logger = Logger(getString(R.string.app_name))
         registerActivityLifecycleCallbacks(ActivityLifecycleHandler())
     }
 }
