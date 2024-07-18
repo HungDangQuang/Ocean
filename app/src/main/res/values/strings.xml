@@ -29,4 +29,6 @@
     <string name="text_translate">Translate</string>
 
     <string name="toast_message_no_input">No text to translate</string>
+
+    <string name="test">Hello Dagger</string>
 </resources>

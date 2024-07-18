@@ -7,31 +7,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.model.Country
-import com.example.ocean.Utils.Constants
-import com.example.ocean.data.repository.DataStoreRepositoryImpl
-import com.example.ocean.data.repository.LocalStorageRepositoryImpl
-import com.example.ocean.data.repository.TranslationRepositoryImpl
-import com.example.ocean.data.repository.datasource.DataStorePreferences
-import com.example.ocean.data.service.RetrofitInstance
 import com.example.ocean.databinding.FragmentCountryListBinding
-import com.example.ocean.domain.storage.DataStoreKey
-import com.example.ocean.domain.usecase.GetCurrentCountryUseCase
-import com.example.ocean.domain.usecase.StoreCurrentCountryUseCase
-import com.example.ocean.domain.usecase.TranslateTextUseCase
 import com.example.ocean.presentation.CountryListViewModel
-import com.example.ocean.presentation.CountryListViewModelFactory
 import com.example.ocean.ui.adapter.CountryAdapter
 import com.example.ocean.ui.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.ceil
 
+@AndroidEntryPoint
 class CountryListFragment : BaseFragment() {
 
     private lateinit var binding: FragmentCountryListBinding
-    private lateinit var viewModel: CountryListViewModel
+    private val viewModel: CountryListViewModel by activityViewModels()
     private lateinit var countryAdapter: CountryAdapter
     private val items = mutableListOf<Country>()
     private val allItems = mutableListOf<Country>()
@@ -119,43 +110,10 @@ class CountryListFragment : BaseFragment() {
     }
 
     private fun setUpCountryListViewModel() {
-        val dataStorePreferences = DataStorePreferences(requireContext())
-        val dataStoreRepositoryImpl = DataStoreRepositoryImpl(dataStorePreferences)
-        val getCurrentInputCountryUseCase = GetCurrentCountryUseCase(
-            DataStoreKey.KEY_CURRENT_INPUT_COUNTRY_NAME,
-            dataStoreRepositoryImpl,
-            Constants.DEFAULT_INPUT_COUNTRY
-        )
-        val getCurrentOutputCountryUseCase = GetCurrentCountryUseCase(
-            DataStoreKey.KEY_CURRENT_OUTPUT_COUNTRY_NAME,
-            dataStoreRepositoryImpl,
-            Constants.DEFAULT_OUTPUT_COUNTRY
-        )
-        val storeCurrentInputCountryUseCase = StoreCurrentCountryUseCase(
-            DataStoreKey.KEY_CURRENT_INPUT_COUNTRY_NAME,
-            dataStoreRepositoryImpl
-        )
-        val storeCurrentOutputCountryUseCase = StoreCurrentCountryUseCase(
-            DataStoreKey.KEY_CURRENT_OUTPUT_COUNTRY_NAME,
-            dataStoreRepositoryImpl
-        )
-        val localStorageRepositoryImpl = LocalStorageRepositoryImpl()
-
-        val translationRepositoryImpl = TranslationRepositoryImpl(RetrofitInstance.translationService)
-        val translateTextUseCase = TranslateTextUseCase(translationRepositoryImpl)
-
-        val viewModelFactory = CountryListViewModelFactory(
-            localStorageRepositoryImpl,
-            getCurrentInputCountryUseCase,
-            storeCurrentInputCountryUseCase,
-            getCurrentOutputCountryUseCase,
-            storeCurrentOutputCountryUseCase,
-            translateTextUseCase
-        )
-        viewModel = ViewModelProvider(
-            requireActivity(),
-            viewModelFactory
-        )[CountryListViewModel::class.java]
+//        viewModel = ViewModelProvider(
+//            requireActivity(),
+//            viewModelFactory
+//        )[CountryListViewModel::class.java]
 
         viewModel.items.observe(viewLifecycleOwner) { it ->
             if (it != null) {

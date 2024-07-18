@@ -14,14 +14,18 @@ import com.example.ocean.domain.usecase.StoreCurrentCountryUseCase
 import com.example.ocean.domain.usecase.TranslateTextUseCase
 import com.example.ocean.presentation.mapper.TranslationMapper
 import com.example.ocean.presentation.mapper.TranslationRequestDTO
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Named
 
-class CountryListViewModel (
-    private val localStorageRepository: LocalStorageRepository? = null,
-    getCurrentInputCountryUseCase: GetCurrentCountryUseCase,
-    private val storeCurrentInputCountryUseCase: StoreCurrentCountryUseCase,
-    getCurrentOutputCountryUseCase: GetCurrentCountryUseCase,
-    private val storeCurrentOutputCountryUseCase: StoreCurrentCountryUseCase,
+@HiltViewModel
+class CountryListViewModel @Inject constructor(
+    @Named("currentInputCountry") getCurrentInputCountryUseCase: GetCurrentCountryUseCase,
+    @Named("storeCurrentInputCountry") private val storeCurrentInputCountryUseCase: StoreCurrentCountryUseCase,
+    @Named("currentOutputCountry") getCurrentOutputCountryUseCase: GetCurrentCountryUseCase,
+    @Named("storeCurrentOutputCountry") private val storeCurrentOutputCountryUseCase: StoreCurrentCountryUseCase,
+    private val localStorageRepository: LocalStorageRepository,
     private val translationUseCase: TranslateTextUseCase
 ) : ViewModel() {
 
@@ -53,7 +57,7 @@ class CountryListViewModel (
     private fun fetchCountryList() {
         Log.d(TAG, "fetchCountryList")
         viewModelScope.launch {
-            val data = localStorageRepository?.loadListOfCountries()
+            val data = localStorageRepository.loadListOfCountries()
             _items.postValue(data)
         }
     }

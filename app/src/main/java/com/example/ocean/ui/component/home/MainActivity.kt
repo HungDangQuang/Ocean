@@ -5,11 +5,16 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.ocean.R
+import com.example.ocean.presentation.CountryListViewModel
 import com.example.ocean.ui.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
+import androidx.activity.viewModels
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private lateinit var navController: NavController
+    private val countryListViewModel: CountryListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
