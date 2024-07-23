@@ -31,4 +31,6 @@
     <string name="toast_message_no_input">No text to translate</string>
 
     <string name="test">Hello Dagger</string>
+
+    <string name="dialog_text_message_recording">Recording…</string>
 </resources>
