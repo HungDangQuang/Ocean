@@ -1,8 +1,10 @@
 package com.example.ocean.Utils
 
+import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.util.Log
 import android.view.View.OnClickListener
@@ -10,6 +12,7 @@ import android.view.Window
 import android.widget.Button
 import androidx.appcompat.app.ActionBar.LayoutParams
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import com.example.ocean.OceanApplication
 import com.example.ocean.R
 import kotlinx.coroutines.async
@@ -110,6 +113,13 @@ class Utility {
 
         fun getLanguageCodeBasedOnName(language: String) : String {
             return Constants.supportedLanguageList.find { it.language == language }?.languageCode ?: ""
+        }
+
+        fun isPermissionGranted(context: Context, permission: String) : Boolean {
+            return ContextCompat.checkSelfPermission(
+                context,
+                permission
+            ) == PackageManager.PERMISSION_GRANTED
         }
 
 

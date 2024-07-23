@@ -1,25 +1,59 @@
 package com.example.ocean.ui.component.details.add
 
+import android.Manifest
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.speech.RecognizerIntent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.registerForActivityResult
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.ocean.R
+import com.example.ocean.Utils.Utility.Companion.isPermissionGranted
 import com.example.ocean.databinding.FragmentVocabularyAdditionBinding
 import com.example.ocean.presentation.CountryListViewModel
 import com.example.ocean.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 @AndroidEntryPoint
 class VocabularyAdditionFragment : BaseFragment() {
-    private lateinit var binding:FragmentVocabularyAdditionBinding
+    private lateinit var binding: FragmentVocabularyAdditionBinding
     private val countryListViewModel: CountryListViewModel by activityViewModels()
     private val TAG = VocabularyAdditionFragment::class.java.simpleName
+
+    private val launcher = registerForActivityResult<Intent, ActivityResult>(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode == RESULT_OK) {
+            val resultString =
+                result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.get(0)
+
+            binding.tiInputText.setText(resultString)
+        }
+    }
+
+    private val permissionResultCallback = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {
+        if (it) {
+            Log.d(TAG, "Permission granted")
+            startRecording()
+        } else {
+            Log.d(TAG, "Permission is denied")
+        }
+    }
 
     override fun createView(
         inflater: LayoutInflater,
@@ -50,7 +84,11 @@ class VocabularyAdditionFragment : BaseFragment() {
         binding.btTranslate.setOnClickListener {
             binding.tiInputText.onEditorAction(EditorInfo.IME_ACTION_DONE)
             if (isTextInputEmpty()) {
-                Toast.makeText(requireContext(), R.string.toast_message_no_input, Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    requireContext(),
+                    R.string.toast_message_no_input,
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             } else {
                 // translate text
@@ -91,10 +129,21 @@ class VocabularyAdditionFragment : BaseFragment() {
         binding.ivRevert.setOnClickListener {
             countryListViewModel.revertInOutLanguage()
         }
+
+        binding.ivVoiceRecording.setOnClickListener {
+            Log.d(TAG, "Clicked voice button")
+            if (!isPermissionGranted(requireContext(), Manifest.permission.RECORD_AUDIO)
+            ) {
+                permissionResultCallback.launch(Manifest.permission.RECORD_AUDIO)
+            } else {
+                startRecording()
+            }
+        }
     }
 
     private fun setUpTextChangedBehavior() {
-        binding.tiInputText.addTextChangedListener(object : TextChangedListener(binding.btDeleteText){})
+        binding.tiInputText.addTextChangedListener(object :
+            TextChangedListener(binding.btDeleteText) {})
     }
 
     override fun goToNextScreen() {
@@ -143,6 +192,20 @@ class VocabularyAdditionFragment : BaseFragment() {
 
     private fun isTextInputEmpty(): Boolean {
         return binding.tiInputText.text?.length == 0
+    }
+
+    private fun startRecording() {
+        Log.d(TAG, "startRecording")
+        val speechRecognizerIntent: Intent =
+            Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                putExtra(
+                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+                )
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+            }
+
+        launcher.launch(speechRecognizerIntent)
     }
 
 }
