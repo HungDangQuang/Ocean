@@ -115,4 +115,8 @@ object Constants {
         CountryLanguage("NG", "Yoruba", "yo"),
         CountryLanguage("ZA", "Zulu", "zu")
     )
+
+    // processed image size to the text recognition MLKit
+    const val PROCESSED_IMAGE_WIDTH_SIZE = 720
+    const val PROCESSED_IMAGE_HEIGHT_SIZE = 1280
 }

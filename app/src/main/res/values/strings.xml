@@ -33,4 +33,6 @@
     <string name="test">Hello Dagger</string>
 
     <string name="dialog_text_message_recording">Recording…</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
