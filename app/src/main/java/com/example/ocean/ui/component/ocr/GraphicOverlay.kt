@@ -8,7 +8,6 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 
 class GraphicOverlay(context: Context, attrs: AttributeSet?) : View(context, attrs) {
@@ -43,7 +42,6 @@ class GraphicOverlay(context: Context, attrs: AttributeSet?) : View(context, att
 
     fun resetElements() {
         this.elements = listOf()
-//        textPaint.reset()
         invalidate()
     }
 
@@ -56,8 +54,6 @@ class GraphicOverlay(context: Context, attrs: AttributeSet?) : View(context, att
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-//        val widthRatio: Float = (PROCESSED_IMAGE_WIDTH_SIZE.toFloat() / width )
-//        val heightRatio: Float = (PROCESSED_IMAGE_HEIGHT_SIZE / ((1.8f *width) + 0.5f * (1.8f*width - PROCESSED_IMAGE_HEIGHT_SIZE)))
 
         if (elements.isNotEmpty()) {
             var tempRectF = RectF()
@@ -73,9 +69,6 @@ class GraphicOverlay(context: Context, attrs: AttributeSet?) : View(context, att
                 var right = points[1].x.toFloat() * 1.5f + textBounds.width() * 0.8f + cornerRadius
                 var bottom = points[1].y.toFloat() * 1.8f + textBounds.height() + cornerRadius
 
-                Log.d(TAG, "text: ${element.text} height: ${bottom - top}")
-
-
                 val rectF = RectF(
                     left,
                     top,
@@ -84,86 +77,65 @@ class GraphicOverlay(context: Context, attrs: AttributeSet?) : View(context, att
                 )
 
                 if (rectF.intersect(tempRectF) && !tempRectF.isEmpty) {
-                    val deltaX = Math.min(rectF.right - tempRectF.left, tempRectF.right - rectF.left)
-                    val deltaY = Math.min(rectF.bottom - tempRectF.top, tempRectF.bottom - rectF.top)
 
-                    if (deltaX > deltaY) {
+                    // Get intersection area
+                    val deltaX =
+                        (rectF.right - tempRectF.left).coerceAtMost(tempRectF.right - rectF.left)
+                    val deltaY =
+                        (rectF.bottom - tempRectF.top).coerceAtMost(tempRectF.bottom - rectF.top)
+
+                    // Split the text box vertically
+                    if (rectF.top > tempRectF.bottom) {
+                        top -= deltaY
+                        bottom -= deltaY
+                    } else {
+                        top += deltaY
+                        bottom += deltaY
+                    }
+
+                    // Check for intersection after splitting
+                    val temp = RectF(left, top, right, bottom)
+
+                    if (temp.intersect(tempRectF)) {
+
+                        // Split the text box horizontally
                         if (rectF.left < tempRectF.left) {
                             left -= deltaX
                             right -= deltaX
-//                            rectF.offset(-deltaX, 0f) // Move rect1 to the left
                         } else {
                             left += deltaX
                             right += deltaX
-//                            rectF.offset(deltaX, 0f) // Move rect1 to the right
-                        }
-                    } else {
-                        if (rectF.top < tempRectF.top) {
-                            top -= deltaY
-                            bottom -= deltaY
-//                            rectF.offset(0f, -deltaY) // Move rect1 upwards
-                        } else {
-                            top += deltaY
-                            bottom += deltaY
-//                            rectF.offset(0f, deltaY) // Move rect1 downwards
                         }
                     }
-
-//                    if (tempRectF.bottom - rectF.top > 0 && tempRectF.right - rectF.left > 0) {
-//                        top = tempRectF.bottom
-//                        bottom = rectF.bottom + 40f + (tempRectF.bottom - rectF.top)
-//                    } else {
-//                        top = rectF.top - (rectF.bottom - tempRectF.top)
-//                        bottom = rectF.bottom - (rectF.bottom - tempRectF.top)
-//                    }
-//                    val horizontalSplitRect = RectF(left, top, right, bottom)
-//                    if (horizontalSplitRect.intersect(tempRectF)) {
-//                        if (tempRectF.right > horizontalSplitRect.left) {
-//                            left = horizontalSplitRect.left + (horizontalSplitRect.right - tempRectF.left)
-//                            right = horizontalSplitRect.right + (horizontalSplitRect.right - tempRectF.left)
-//                        }
-//                    }
-
                 }
 
-                tempRectF = rectF
+                // Update temp rect
+                tempRectF = RectF(left, top, right, bottom)
 
-                canvas.drawRoundRect(left, top, right, bottom, cornerRadius, cornerRadius, rectPaint)
+                // Draw rect
+                canvas.drawRoundRect(
+                    left,
+                    top,
+                    right,
+                    bottom,
+                    cornerRadius,
+                    cornerRadius,
+                    rectPaint
+                )
 
+                // Draw text to stay centered of rect
                 val fontMetrics = textPaint.fontMetrics
                 val textHeight = fontMetrics.descent - fontMetrics.ascent
                 val textOffset = textHeight / 2 - fontMetrics.descent
-                Log.d(TAG, "text: ${element.text} height: ${bottom - top} width: ${right - left} height from rect: ${rectF.bottom - rectF.top}")
 
                 canvas.drawText(
                     element.text,
-                    left + (right - left)/2 + textOffset,
-                    top + (bottom - top)/2 + textOffset,
+                    left + (right - left) / 2 + textOffset,
+                    top + (bottom - top) / 2 + textOffset,
                     textPaint
                 )
             }
         }
-    }
-
-    private fun translateRectVertical(rootRect: RectF, comparativeRect: RectF): RectF {
-
-        if (rootRect.top < comparativeRect.bottom) {
-            val adjustedTop = rootRect.bottom + 20f
-            val adjustedBottom = comparativeRect.bottom + 20f + (rootRect.bottom - comparativeRect.top)
-            return RectF(comparativeRect.left, adjustedTop, comparativeRect.right, adjustedBottom)
-        }
-        val adjustedTop = comparativeRect.top - (comparativeRect.bottom - rootRect.top)
-        val adjustedBottom = comparativeRect.bottom - (comparativeRect.bottom - rootRect.top)
-        return  RectF(comparativeRect.left, adjustedTop, comparativeRect.right, adjustedBottom)
-    }
-
-    private fun translateRectHorizontal(rootRect: RectF, comparativeRect: RectF): RectF {
-        if (rootRect.right > comparativeRect.left) {
-            val adjustedLeft = comparativeRect.left + (comparativeRect.right - rootRect.left)
-            val adjustedRight = comparativeRect.right + (comparativeRect.right - rootRect.left)
-            return RectF(adjustedLeft, comparativeRect.top, adjustedRight, comparativeRect.bottom)
-        }
-        return comparativeRect
     }
 
 }

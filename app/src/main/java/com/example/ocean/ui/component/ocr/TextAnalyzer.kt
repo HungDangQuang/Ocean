@@ -113,8 +113,8 @@ class TextAnalyzer(private val onTextFound: (List<TextCoordinates>) -> Unit) :
                 .addOnSuccessListener { visionText ->
                     val elements =
                         visionText.textBlocks.flatMap { it.lines }.flatMap { it.elements }
-                    // separate image in lines
 
+                    // separate image in lines
                     val textOnLines = groupTextOnSameLine(elements)
                     var i = 0
                     val coordinatesList = mutableListOf<TextCoordinates>()
@@ -127,19 +127,18 @@ class TextAnalyzer(private val onTextFound: (List<TextCoordinates>) -> Unit) :
                             val tlPoint = highConfidenceTexts[0].cornerPoints!![0]
                             val brPoint =
                                 highConfidenceTexts[highConfidenceTexts.lastIndex].cornerPoints!![2]
-//                            Log.d(TAG, "point1: ${highConfidenceTexts[highConfidenceTexts.lastIndex].cornerPoints!![0]}")
-//                            Log.d(TAG, "point2: ${highConfidenceTexts[highConfidenceTexts.lastIndex].cornerPoints!![1]}")
-//                            Log.d(TAG, "point3: ${highConfidenceTexts[highConfidenceTexts.lastIndex].cornerPoints!![2]}")
-//                            Log.d(TAG, "point4: ${highConfidenceTexts[highConfidenceTexts.lastIndex].cornerPoints!![3]}")
+
                             for (element in highConfidenceTexts) {
                                 text += element.text + " "
                             }
+
                             Log.d(TAG, "line $i: $text")
                             val listOfPoints = listOf(tlPoint, brPoint)
                             val textCoordinates = TextCoordinates(text, listOfPoints)
                             coordinatesList.add(textCoordinates)
                         }
                     }
+                    coordinatesList.sortBy { item -> item.coordinates[0].y }
                     onTextFound(coordinatesList)
                 }
                 .addOnFailureListener { e ->
