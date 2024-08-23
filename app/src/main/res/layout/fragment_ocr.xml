@@ -71,6 +71,15 @@
         android:scaleType="centerCrop"
         android:translationZ="1dp"/>
 
+    <View
+        android:id="@+id/v_opacity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:translationZ="1dp"
+        android:alpha="0.2"
+        android:background="@color/white"
+        android:visibility="invisible"/>
+
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"

@@ -10,9 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.camera2.Camera2Config
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.CameraXConfig
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -38,7 +40,7 @@ import java.util.concurrent.Executors
 import kotlin.math.log
 
 
-class OCRFragment : BaseFragment() {
+class OCRFragment : BaseFragment(), CameraXConfig.Provider {
 
     private lateinit var binding: FragmentOcrBinding
     private var imageCapture: ImageCapture? = null
@@ -174,6 +176,7 @@ class OCRFragment : BaseFragment() {
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             val imageAnalyzer = ImageAnalysis.Builder()
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .setResolutionSelector(
                     ResolutionSelector.Builder()
                         .setResolutionStrategy(
@@ -247,7 +250,7 @@ class OCRFragment : BaseFragment() {
 
                     // show the captured image
 
-//                    binding.ivCapturedImage.setImageBitmap(rotatedBitmap)
+                    binding.ivCapturedImage.setImageBitmap(rotatedBitmap)
                     handleUIAfterTakingPhoto()
                 }
 
@@ -275,6 +278,9 @@ class OCRFragment : BaseFragment() {
         binding.backButton.visibility = View.INVISIBLE
         binding.btExitPreviewMode.visibility = View.VISIBLE
 
+        // show the opacity view
+        binding.vOpacity.visibility = View.VISIBLE
+
         // show the original - translated image UI
 
         // show the bottom sheet layout
@@ -285,6 +291,12 @@ class OCRFragment : BaseFragment() {
 //            isDraggable = false
 //        }
 
+    }
+
+    override fun getCameraXConfig(): CameraXConfig {
+        return CameraXConfig.Builder.fromConfig(Camera2Config.defaultConfig())
+            .setAvailableCamerasLimiter(CameraSelector.DEFAULT_BACK_CAMERA)
+            .build()
     }
 
 }
