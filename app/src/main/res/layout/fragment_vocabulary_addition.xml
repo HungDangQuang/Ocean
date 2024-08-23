@@ -85,6 +85,17 @@
           android:layout_margin="@dimen/margin_s"
           android:padding="@dimen/small_icon_padding"/>
 
+      <ImageView
+          android:id="@+id/iv_ocr"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          app:layout_constraintStart_toEndOf="@id/iv_voice_recording"
+          app:layout_constraintBottom_toBottomOf="parent"
+          android:src="@drawable/camera_icon"
+          android:translationZ="1dp"
+          android:layout_margin="@dimen/margin_s"
+          android:padding="@dimen/small_icon_padding"/>
+
       <com.google.android.material.textfield.TextInputEditText
           android:id="@+id/ti_input_text"
           android:layout_width="match_parent"

@@ -22,4 +22,10 @@
         android:name="com.example.ocean.ui.component.details.choose_country.CountryListFragment"
         android:label="fragment_country_list"
         tools:layout="@layout/fragment_country_list" />
+
+    <fragment
+        android:id="@+id/ocrFragment"
+        android:name="com.example.ocean.ui.component.ocr.OCRFragment"
+        android:label="fragment_ocr"
+        tools:layout="@layout/fragment_ocr" />
 </navigation>

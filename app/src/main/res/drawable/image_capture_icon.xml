@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/outer_circle.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Outer circle -->
+
+    <item android:top="10dp" android:bottom="10dp" android:left="10dp" android:right="10dp">
+        <shape>
+            <solid android:color="#FFFFFFFF" /> <!-- Fill color of the outer circle (border) -->
+            <size android:width="120dp" android:height="120dp" /> <!-- Size of the outer circle -->
+            <corners android:radius="60dp" /> <!-- Radius to make it a circle -->
+        </shape>
+    </item>
+    <!-- Inner circle -->
+    <item android:top="20dp" android:bottom="20dp" android:left="20dp" android:right="20dp">
+        <shape>
+            <solid android:color="@color/background_gray" /> <!-- Color to fill the gap between the circles -->
+            <size android:width="100dp" android:height="100dp" /> <!-- Size to match the inner circle -->
+            <corners android:radius="50dp" /> <!-- Radius to make it a circle -->
+        </shape>
+    </item>
+</layer-list>

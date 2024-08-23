@@ -139,6 +139,10 @@ class VocabularyAdditionFragment : BaseFragment() {
                 startRecording()
             }
         }
+
+        binding.ivOcr.setOnClickListener {
+            findNavController().navigate(R.id.ocrFragment)
+        }
     }
 
     private fun setUpTextChangedBehavior() {
