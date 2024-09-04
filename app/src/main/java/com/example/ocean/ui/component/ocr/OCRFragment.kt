@@ -1,5 +1,8 @@
 package com.example.ocean.ui.component.ocr
 
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.os.Bundle
@@ -32,12 +35,8 @@ import com.example.ocean.OceanApplication
 import com.example.ocean.R
 import com.example.ocean.Utils.Utility
 import com.example.ocean.ui.base.BaseFragment
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import java.text.SimpleDateFormat
-import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import kotlin.math.log
 
 
 class OCRFragment : BaseFragment(), CameraXConfig.Provider {
@@ -129,6 +128,31 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
             binding.graphicOverlay.restartPaint()
             startCamera()
         }
+
+        // Original and target colors
+        val color1 = ContextCompat.getColor(requireContext(), R.color.color_pale_spring_bud)
+        val color2 = ContextCompat.getColor(requireContext(), R.color.color_floral_white)
+
+        binding.btTranslatedText.setOnClickListener {
+            animateChangingButtonColor(color2, color1, it)
+            animateChangingButtonColor(color1, color2, binding.btOriginalText)
+        }
+
+        binding.btOriginalText.setOnClickListener {
+            animateChangingButtonColor(color2, color1, it)
+            animateChangingButtonColor(color1, color2, binding.btTranslatedText)
+        }
+    }
+
+    private fun animateChangingButtonColor(color1: Int, color2: Int, view: View) {
+        val animator = ValueAnimator.ofObject(ArgbEvaluator(), color1, color2)
+        animator.duration = 500
+        animator.addUpdateListener {
+            val interpolatedColor = it.animatedValue as Int
+            val updatedColorStateList = ColorStateList.valueOf(interpolatedColor)
+            view.backgroundTintList = updatedColorStateList
+        }
+        animator.start()
     }
 
     override fun goToNextScreen() {
@@ -200,8 +224,6 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
                 .also {
                     it.setAnalyzer(cameraExecutor, TextAnalyzer { resultText ->
                         binding.graphicOverlay.setElements(resultText)
-//                        Log.d(TAG, "startCamera: $resultText")
-
                     })
                 }
 

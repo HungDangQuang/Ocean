@@ -13,4 +13,9 @@
     <color name="color_purple">#4A249D</color>
 
     <color name="background_yellow">#c46f2b</color>
+
+    <color name="color_floral_white">#fdf9ec</color>
+    <color name="color_pale_spring_bud">#e8e6c2</color>
+
+    <color name="color_eerie_black">#1e1d15</color>
 </resources>
