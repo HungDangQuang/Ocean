@@ -35,6 +35,7 @@ import com.example.ocean.OceanApplication
 import com.example.ocean.R
 import com.example.ocean.Utils.Utility
 import com.example.ocean.ui.base.BaseFragment
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -307,11 +308,11 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
 
         // show the bottom sheet layout
 
-//        binding.clBottomSheet.visibility = View.VISIBLE
-//        BottomSheetBehavior.from(binding.clBottomSheet).apply {
-//            this.state = BottomSheetBehavior.STATE_EXPANDED
-//            isDraggable = false
-//        }
+        binding.clBottomSheet.visibility = View.VISIBLE
+        BottomSheetBehavior.from(binding.clBottomSheet).apply {
+            this.state = BottomSheetBehavior.STATE_EXPANDED
+            isDraggable = false
+        }
 
     }
 
