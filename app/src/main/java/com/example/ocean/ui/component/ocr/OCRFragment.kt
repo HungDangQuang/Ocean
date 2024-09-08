@@ -1,8 +1,5 @@
 package com.example.ocean.ui.component.ocr
 
-import android.animation.ArgbEvaluator
-import android.animation.ValueAnimator
-import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.os.Bundle
@@ -28,6 +25,7 @@ import androidx.camera.core.resolutionselector.AspectRatioStrategy
 import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.example.ocean.databinding.FragmentOcrBinding
@@ -47,6 +45,7 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var cameraProviderBinding: Camera
     private lateinit var cameraProvider: ProcessCameraProvider
+    private lateinit var displayedTextOptionView: DisplayedTextOptionView
 
     companion object {
         private const val TAG = "CameraXApp"
@@ -128,32 +127,10 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
             binding.ivCapturedImage.visibility = View.GONE
             binding.graphicOverlay.restartPaint()
             startCamera()
-        }
 
-        // Original and target colors
-        val color1 = ContextCompat.getColor(requireContext(), R.color.color_pale_spring_bud)
-        val color2 = ContextCompat.getColor(requireContext(), R.color.color_floral_white)
-
-        binding.btTranslatedText.setOnClickListener {
-            animateChangingButtonColor(color2, color1, it)
-            animateChangingButtonColor(color1, color2, binding.btOriginalText)
+            // Remove initialized text option view
+            binding.parentView.removeView(displayedTextOptionView)
         }
-
-        binding.btOriginalText.setOnClickListener {
-            animateChangingButtonColor(color2, color1, it)
-            animateChangingButtonColor(color1, color2, binding.btTranslatedText)
-        }
-    }
-
-    private fun animateChangingButtonColor(color1: Int, color2: Int, view: View) {
-        val animator = ValueAnimator.ofObject(ArgbEvaluator(), color1, color2)
-        animator.duration = 500
-        animator.addUpdateListener {
-            val interpolatedColor = it.animatedValue as Int
-            val updatedColorStateList = ColorStateList.valueOf(interpolatedColor)
-            view.backgroundTintList = updatedColorStateList
-        }
-        animator.start()
     }
 
     override fun goToNextScreen() {
@@ -305,6 +282,21 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
         binding.vOpacity.visibility = View.VISIBLE
 
         // show the original - translated image UI
+        if (::displayedTextOptionView.isInitialized) {
+            binding.parentView.removeView(displayedTextOptionView)
+        }
+        displayedTextOptionView = DisplayedTextOptionView(requireContext()).apply {
+            id = View.generateViewId()
+        }
+        binding.parentView.addView(displayedTextOptionView)
+        val constraintSet = ConstraintSet().apply {
+            clone(binding.parentView)
+            connect(displayedTextOptionView.id, ConstraintSet.TOP, binding.guideline20Percent.id, ConstraintSet.BOTTOM, 0) // Margin of 50dp from the top
+            connect(displayedTextOptionView.id, ConstraintSet.START, binding.parentView.id, ConstraintSet.START, 0)
+            connect(displayedTextOptionView.id, ConstraintSet.END, binding.parentView.id, ConstraintSet.END, 0)
+        }
+        constraintSet.setTranslationZ(displayedTextOptionView.id, 3f)
+        constraintSet.applyTo(binding.parentView)
 
         // show the bottom sheet layout
 
