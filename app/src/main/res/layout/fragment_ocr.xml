@@ -137,6 +137,17 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_end="30dp"/>
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_revert"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toEndOf="@id/input_language_country"
+                app:layout_constraintEnd_toStartOf="@id/output_language_country"
+                app:layout_constraintTop_toTopOf="@id/input_language_country"
+                app:layout_constraintBottom_toBottomOf="@id/input_language_country"
+                android:src="@drawable/revert_icon"
+                android:layout_marginHorizontal="@dimen/margin_s"/>
+
             <include
                 android:id="@+id/output_language_country"
                 layout="@layout/layout_language_country"
