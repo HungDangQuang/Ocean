@@ -139,13 +139,15 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_revert"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:clickable="true"
                 app:layout_constraintStart_toEndOf="@id/input_language_country"
                 app:layout_constraintEnd_toStartOf="@id/output_language_country"
                 app:layout_constraintTop_toTopOf="@id/input_language_country"
                 app:layout_constraintBottom_toBottomOf="@id/input_language_country"
                 android:src="@drawable/exchange_language_icon"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:layout_marginHorizontal="@dimen/margin_15"/>
 
             <include
