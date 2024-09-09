@@ -11,6 +11,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:padding="0dp"
         app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
         app:contentPadding="0dp"
         android:backgroundTint="@color/color_floral_white"
         android:id="@+id/card_view">
