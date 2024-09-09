@@ -127,7 +127,7 @@
                 android:layout_height="0dp"
                 app:layout_constraintStart_toEndOf="@id/guideline_left"
                 app:layout_constraintTop_toTopOf="@id/guideline_top"
-                app:layout_constraintWidth_percent="0.25"
+                app:layout_constraintWidth_percent="0.3"
                 app:layout_constraintDimensionRatio="2.5:1" />
 
             <androidx.constraintlayout.widget.Guideline
@@ -145,8 +145,8 @@
                 app:layout_constraintEnd_toStartOf="@id/output_language_country"
                 app:layout_constraintTop_toTopOf="@id/input_language_country"
                 app:layout_constraintBottom_toBottomOf="@id/input_language_country"
-                android:src="@drawable/revert_icon"
-                android:layout_marginHorizontal="@dimen/margin_s"/>
+                android:src="@drawable/exchange_language_icon"
+                android:layout_marginHorizontal="@dimen/margin_15"/>
 
             <include
                 android:id="@+id/output_language_country"
@@ -155,7 +155,7 @@
                 android:layout_height="0dp"
                 app:layout_constraintTop_toTopOf="@id/guideline_top"
                 app:layout_constraintEnd_toStartOf="@id/guideline_right"
-                app:layout_constraintWidth_percent="0.25"
+                app:layout_constraintWidth_percent="0.3"
                 app:layout_constraintDimensionRatio="2.5:1"/>
 
 
