@@ -65,6 +65,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+    
+    <ImageView
+        android:id="@+id/bt_gallery"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="65dp"
+        android:layout_marginStart="30dp"
+        android:translationZ="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/gallery_icon"
+        app:backgroundTint="@color/background_gray"/>
 
     <com.example.ocean.ui.component.ocr.GraphicOverlay
         android:id="@+id/graphicOverlay"
