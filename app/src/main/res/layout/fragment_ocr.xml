@@ -101,9 +101,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_bottom_sheet"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/rounded_background"
             android:visibility="invisible"
+            android:paddingBottom="30dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
             <androidx.constraintlayout.widget.Guideline
@@ -159,6 +160,54 @@
                 app:layout_constraintEnd_toStartOf="@id/guideline_right"
                 app:layout_constraintWidth_percent="0.3"
                 app:layout_constraintDimensionRatio="2.5:1"/>
+
+            <HorizontalScrollView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/guideline_left"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/input_language_country"
+                android:layout_marginTop="20dp"
+                android:fillViewport="false"
+                android:measureAllChildren="false"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/ll_utility"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/bt_send_text_to_home"
+                        style="@style/UtilityButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_send_to_translate_home"
+                        app:icon="@drawable/back_icon" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/bt_select_all"
+                        style="@style/UtilityButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_select_all"
+                        app:icon="@drawable/t_icon"
+                        android:layout_marginStart="@dimen/margin_s"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/bt_share"
+                        style="@style/UtilityButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/bt_share"
+                        app:icon="@drawable/share_icon"
+                        android:layout_marginStart="@dimen/margin_s"
+                        android:layout_marginEnd="@dimen/margin_10"/>
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

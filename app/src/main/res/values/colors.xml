@@ -20,4 +20,6 @@
     <color name="color_eerie_black">#1e1d15</color>
     <color name="color_alabaster">#ebeaea</color>
     <color name="color_platinum">#e2e5ec</color>
+    <color name="color_anti_flash_white">#eceff4</color>
+    <color name="color_arsenic">#3d4043</color>
 </resources>

@@ -36,4 +36,7 @@
 
     <string name="button_original_text">Original</string>
     <string name="button_translated_text">Translated</string>
+    <string name="button_send_to_translate_home">Send to Translate Home</string>
+    <string name="button_select_all">Select all</string>
+    <string name="bt_share">Share</string>
 </resources>
