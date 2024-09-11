@@ -27,17 +27,21 @@ import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.ocean.databinding.FragmentOcrBinding
 import com.example.ocean.OceanApplication
 import com.example.ocean.R
 import com.example.ocean.Utils.Utility
+import com.example.ocean.presentation.CountryListViewModel
 import com.example.ocean.ui.base.BaseFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
+@AndroidEntryPoint
 class OCRFragment : BaseFragment(), CameraXConfig.Provider {
 
     private lateinit var binding: FragmentOcrBinding
@@ -46,7 +50,7 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
     private lateinit var cameraProviderBinding: Camera
     private lateinit var cameraProvider: ProcessCameraProvider
     private lateinit var displayedTextOptionView: DisplayedTextOptionView
-
+    private val viewModel: CountryListViewModel by activityViewModels()
     companion object {
         private const val TAG = "CameraXApp"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
@@ -89,6 +93,7 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setUpViewModel()
         binding = FragmentOcrBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -312,6 +317,16 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
         return CameraXConfig.Builder.fromConfig(Camera2Config.defaultConfig())
             .setAvailableCamerasLimiter(CameraSelector.DEFAULT_BACK_CAMERA)
             .build()
+    }
+
+    private fun setUpViewModel() {
+        viewModel.currentInputCountry.observe(viewLifecycleOwner) {
+            binding.inputLanguageCountry.tvInputLanguageCountry.text = it
+        }
+
+        viewModel.currentOutputCountry.observe(viewLifecycleOwner) {
+            binding.outputLanguageCountry.tvInputLanguageCountry.text = it
+        }
     }
 
 }
