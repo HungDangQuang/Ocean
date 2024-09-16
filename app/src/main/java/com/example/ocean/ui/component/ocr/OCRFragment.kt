@@ -2,6 +2,7 @@ package com.example.ocean.ui.component.ocr
 
 import android.graphics.Bitmap
 import android.graphics.Matrix
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.util.Size
@@ -9,7 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.*
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly
 import androidx.camera.camera2.Camera2Config
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
@@ -29,10 +34,10 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.ocean.databinding.FragmentOcrBinding
 import com.example.ocean.OceanApplication
 import com.example.ocean.R
 import com.example.ocean.Utils.Utility
+import com.example.ocean.databinding.FragmentOcrBinding
 import com.example.ocean.presentation.CountryListViewModel
 import com.example.ocean.ui.base.BaseFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -59,6 +64,17 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
                 android.Manifest.permission.CAMERA,
             ).apply {
             }.toTypedArray()
+    }
+
+    private var pickMedia: ActivityResultLauncher<PickVisualMediaRequest> = registerForActivityResult(
+        PickVisualMedia()
+    ) { uri: Uri? ->
+        // Callback is invoked after the user selects a media item or closes the photo picker.
+        if (uri != null) {
+            Log.d("PhotoPicker", "Selected URI: $uri")
+        } else {
+            Log.d("PhotoPicker", "No media selected")
+        }
     }
 
     private val activityResultLauncher =
@@ -135,6 +151,15 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
 
             // Remove initialized text option view
             binding.parentView.removeView(displayedTextOptionView)
+        }
+
+        binding.btGallery.setOnClickListener {
+            Log.d(TAG, "Button Gallery clicked")
+            pickMedia.launch(
+                PickVisualMediaRequest.Builder()
+                    .setMediaType(ImageOnly)
+                    .build()
+            )
         }
     }
 
