@@ -56,6 +56,7 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
     private lateinit var cameraProvider: ProcessCameraProvider
     private lateinit var displayedTextOptionView: DisplayedTextOptionView
     private val viewModel: CountryListViewModel by activityViewModels()
+    private var isRequestedToShowCamera = false
     companion object {
         private const val TAG = "CameraXApp"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
@@ -110,13 +111,18 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
         savedInstanceState: Bundle?
     ): View? {
         setUpViewModel()
-        binding = FragmentOcrBinding.inflate(inflater, container, false)
+        if (!this::binding.isInitialized) {
+            binding = FragmentOcrBinding.inflate(inflater, container, false)
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requestPermissions()
+        if (!isRequestedToShowCamera) {
+            requestPermissions()
+            isRequestedToShowCamera = true
+        }
     }
 
 
