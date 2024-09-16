@@ -161,6 +161,11 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
                     .build()
             )
         }
+
+        binding.ivRevert.setOnClickListener {
+            Log.d(TAG, "Button revert language clicked")
+            viewModel.revertInOutLanguage()
+        }
     }
 
     override fun goToNextScreen() {
