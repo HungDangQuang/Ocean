@@ -166,6 +166,19 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
             Log.d(TAG, "Button revert language clicked")
             viewModel.revertInOutLanguage()
         }
+
+        binding.inputLanguageCountry.cvInputVocabularyLanguage.setOnClickListener {
+            Log.d(TAG, "Button input language clicked")
+            viewModel.setIsSelectingInputLanguage(true)
+            findNavController().navigate(R.id.countryListFragment)
+        }
+
+        binding.outputLanguageCountry.cvInputVocabularyLanguage.setOnClickListener {
+            Log.d(TAG, "Button output language clicked")
+            viewModel.setIsSelectingInputLanguage(false)
+            findNavController().navigate(R.id.countryListFragment)
+        }
+
     }
 
     override fun goToNextScreen() {
