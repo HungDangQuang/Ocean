@@ -39,4 +39,8 @@
     <string name="button_send_to_translate_home">Send to Translate Home</string>
     <string name="button_select_all">Select all</string>
     <string name="bt_share">Share</string>
+
+    <!-- Selection button -->
+    <string name="button_copy">Copy</string>
+    <string name="button_translate">Translate</string>
 </resources>

@@ -55,6 +55,7 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
     private lateinit var cameraProviderBinding: Camera
     private lateinit var cameraProvider: ProcessCameraProvider
     private lateinit var displayedTextOptionView: DisplayedTextOptionView
+    private lateinit var selectionView: SelectionView
     private val viewModel: CountryListViewModel by activityViewModels()
     private var isRequestedToShowCamera = false
     companion object {
@@ -183,6 +184,33 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
             Log.d(TAG, "Button output language clicked")
             viewModel.setIsSelectingInputLanguage(false)
             findNavController().navigate(R.id.countryListFragment)
+        }
+
+        binding.btSelectAll.setOnClickListener {
+            Log.d(TAG, "Button select all is clicked")
+
+            // check if selection view is initialized
+            if (::selectionView.isInitialized) {
+                binding.parentView.removeView(selectionView)
+            }
+
+            // add and show the selection view
+            selectionView = SelectionView(requireContext()).apply {
+                id = View.generateViewId()
+            }
+
+            binding.parentView.addView(selectionView)
+
+            val constraintSet = ConstraintSet().apply {
+                clone(binding.parentView)
+                connect(selectionView.id, ConstraintSet.BOTTOM, binding.coordinator.id, ConstraintSet.TOP, 50)
+                connect(selectionView.id, ConstraintSet.START, binding.parentView.id, ConstraintSet.START, 0)
+                connect(selectionView.id, ConstraintSet.END, binding.parentView.id, ConstraintSet.END, 0)
+            }
+            constraintSet.setTranslationZ(selectionView.id, 3f)
+            constraintSet.applyTo(binding.parentView)
+
+
         }
 
     }
