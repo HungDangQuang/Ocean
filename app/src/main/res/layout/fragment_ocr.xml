@@ -81,7 +81,8 @@
     <com.example.ocean.ui.component.ocr.GraphicOverlay
         android:id="@+id/graphicOverlay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:translationZ="2dp"/>
 
     <ImageView
         android:id="@+id/iv_captured_image"

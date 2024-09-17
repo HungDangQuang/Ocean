@@ -291,7 +291,7 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
                     Log.d(TAG, "onCaptureSuccess")
 
                     // shutdown camera before showing image
-                    shutDownCamera()
+                    cameraProvider.unbindAll()
 
                     val bitmap = image.toBitmap()
                     val matrix = Matrix()
@@ -313,17 +313,6 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
                     Log.e(TAG, "onError: Exception when capturing image", exception)
                 }
             })
-    }
-
-    private fun shutDownCamera() {
-        cameraProvider.unbindAll()
-        binding.graphicOverlay.resetElements()
-//        cameraExecutor.shutdown()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        shutDownCamera()
     }
 
     private fun handleUIAfterTakingPhoto() {

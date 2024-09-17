@@ -40,7 +40,7 @@ class GraphicOverlay(context: Context, attrs: AttributeSet?) : View(context, att
         invalidate()
     }
 
-    fun resetElements() {
+    private fun resetElements() {
         this.elements = listOf()
         invalidate()
     }
@@ -48,6 +48,7 @@ class GraphicOverlay(context: Context, attrs: AttributeSet?) : View(context, att
     fun restartPaint() {
         textPaint.color = Color.RED
         textPaint.textSize = 32.0f
+        resetElements()
         invalidate()
     }
 
