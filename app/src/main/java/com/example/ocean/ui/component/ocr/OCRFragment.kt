@@ -42,6 +42,9 @@ import com.example.ocean.presentation.CountryListViewModel
 import com.example.ocean.ui.base.BaseFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -195,7 +198,11 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
             removeSelectionView()
 
             // add and show the selection view
-            selectionView = SelectionView(requireContext()).apply {
+            selectionView = SelectionView({
+                CoroutineScope(Dispatchers.Main).launch {
+                    Utility.copyTextToClipboard(binding.graphicOverlay.getTextString(), requireContext())
+                }
+            }, requireContext()).apply {
                 id = View.generateViewId()
             }
 

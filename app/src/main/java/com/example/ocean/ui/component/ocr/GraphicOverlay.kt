@@ -11,6 +11,8 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.ocean.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class GraphicOverlay(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
@@ -149,6 +151,10 @@ class GraphicOverlay(context: Context, attrs: AttributeSet?) : View(context, att
     fun resetRectColor() {
         rectPaint.color = Color.WHITE
         invalidate()
+    }
+
+    suspend fun getTextString(): String = withContext(Dispatchers.Default) {
+        elements.joinToString("\n") { it.text }
     }
 
 }

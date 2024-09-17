@@ -1,8 +1,9 @@
 package com.example.ocean.Utils
 
-import android.Manifest
 import android.app.Activity
 import android.app.Dialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Resources
@@ -15,15 +16,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.example.ocean.OceanApplication
 import com.example.ocean.R
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
 import java.util.Locale
 
 class Utility {
@@ -120,6 +115,18 @@ class Utility {
                 context,
                 permission
             ) == PackageManager.PERMISSION_GRANTED
+        }
+
+        fun copyTextToClipboard(text: String, context: Context) {
+
+            // Get the Clipboard Manager
+            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+            // Create a ClipData with the text to copy
+            val clip = ClipData.newPlainText("ocr_text", text)
+
+            // Set the ClipData into the ClipboardManager
+            clipboard.setPrimaryClip(clip)
         }
 
 
