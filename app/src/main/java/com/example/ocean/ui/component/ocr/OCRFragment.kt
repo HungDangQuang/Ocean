@@ -161,6 +161,7 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
 
             // Remove initialized selection view
             removeSelectionView()
+            binding.graphicOverlay.resetRectColor()
         }
 
         binding.btGallery.setOnClickListener {
@@ -209,6 +210,8 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
             constraintSet.setTranslationZ(selectionView.id, 3f)
             constraintSet.applyTo(binding.parentView)
 
+            // change color of text rect
+            binding.graphicOverlay.changeRectColor()
 
         }
 
@@ -357,8 +360,10 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
         }
         displayedTextOptionView = DisplayedTextOptionView( {
             removeSelectionView()
+            binding.graphicOverlay.resetRectColor()
         }, {
             removeSelectionView()
+            binding.graphicOverlay.resetRectColor()
         }, requireContext()).apply {
             id = View.generateViewId()
         }
@@ -406,6 +411,7 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
         viewModel.setIsSelectingInputLanguage(isSelectingInputLanguage)
         findNavController().navigate(R.id.countryListFragment)
         removeSelectionView()
+        binding.graphicOverlay.resetRectColor()
     }
 
 }

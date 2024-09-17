@@ -9,6 +9,8 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.ContextCompat
+import com.example.ocean.R
 
 class GraphicOverlay(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
@@ -137,6 +139,16 @@ class GraphicOverlay(context: Context, attrs: AttributeSet?) : View(context, att
                 )
             }
         }
+    }
+
+    fun changeRectColor() {
+        rectPaint.color = ContextCompat.getColor(context, R.color.color_maximum_blue_purple)
+        invalidate()
+    }
+
+    fun resetRectColor() {
+        rectPaint.color = Color.WHITE
+        invalidate()
     }
 
 }
