@@ -32,7 +32,8 @@
                 android:text="@string/button_original_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:backgroundTint="@color/color_pale_spring_bud"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bt_translated_text"
