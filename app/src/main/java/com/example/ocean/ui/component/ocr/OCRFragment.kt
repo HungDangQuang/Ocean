@@ -158,6 +158,9 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
 
             // Remove initialized text option view
             binding.parentView.removeView(displayedTextOptionView)
+
+            // Remove initialized selection view
+            removeSelectionView()
         }
 
         binding.btGallery.setOnClickListener {
@@ -190,9 +193,7 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
             Log.d(TAG, "Button select all is clicked")
 
             // check if selection view is initialized
-            if (::selectionView.isInitialized) {
-                binding.parentView.removeView(selectionView)
-            }
+            removeSelectionView()
 
             // add and show the selection view
             selectionView = SelectionView(requireContext()).apply {
@@ -356,7 +357,11 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
         if (::displayedTextOptionView.isInitialized) {
             binding.parentView.removeView(displayedTextOptionView)
         }
-        displayedTextOptionView = DisplayedTextOptionView(requireContext()).apply {
+        displayedTextOptionView = DisplayedTextOptionView( {
+            removeSelectionView()
+        }, {
+            removeSelectionView()
+        }, requireContext()).apply {
             id = View.generateViewId()
         }
         binding.parentView.addView(displayedTextOptionView)
@@ -393,6 +398,10 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
         viewModel.currentOutputCountry.observe(viewLifecycleOwner) {
             binding.outputLanguageCountry.tvInputLanguageCountry.text = it
         }
+    }
+
+    private fun removeSelectionView() {
+        if (::selectionView.isInitialized) binding.parentView.removeView(selectionView)
     }
 
 }
