@@ -179,14 +179,12 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
 
         binding.inputLanguageCountry.cvInputVocabularyLanguage.setOnClickListener {
             Log.d(TAG, "Button input language clicked")
-            viewModel.setIsSelectingInputLanguage(true)
-            findNavController().navigate(R.id.countryListFragment)
+            goToCountryListScreen(true)
         }
 
         binding.outputLanguageCountry.cvInputVocabularyLanguage.setOnClickListener {
             Log.d(TAG, "Button output language clicked")
-            viewModel.setIsSelectingInputLanguage(false)
-            findNavController().navigate(R.id.countryListFragment)
+            goToCountryListScreen(false)
         }
 
         binding.btSelectAll.setOnClickListener {
@@ -402,6 +400,12 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
 
     private fun removeSelectionView() {
         if (::selectionView.isInitialized) binding.parentView.removeView(selectionView)
+    }
+
+    private fun goToCountryListScreen(isSelectingInputLanguage: Boolean) {
+        viewModel.setIsSelectingInputLanguage(isSelectingInputLanguage)
+        findNavController().navigate(R.id.countryListFragment)
+        removeSelectionView()
     }
 
 }
