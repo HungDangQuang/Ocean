@@ -96,7 +96,7 @@ class CountryListViewModel @Inject constructor(
         }
     }
 
-    fun translateText(text: String) {
+    fun translateText(text: String, callBack: ((String) -> Unit)? = null) {
         viewModelScope.launch {
             val translationRequestDto = TranslationRequestDTO(
                 text,
@@ -106,7 +106,7 @@ class CountryListViewModel @Inject constructor(
             val request = TranslationMapper().mapToDomain(translationRequestDto)
             val result = translationUseCase(request)
             if (result is Result.Success) {
-                _translatedText.postValue(result.data)
+                callBack?.invoke(result.data) ?: _translatedText.postValue(result.data)
             }
         }
     }

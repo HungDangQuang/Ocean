@@ -47,6 +47,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 
 @AndroidEntryPoint
@@ -368,9 +370,26 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
         displayedTextOptionView = DisplayedTextOptionView( {
             removeSelectionView()
             binding.graphicOverlay.resetRectColor()
+            binding.graphicOverlay.drawOriginalRect()
         }, {
             removeSelectionView()
-            binding.graphicOverlay.resetRectColor()
+            if (binding.graphicOverlay.isHasTranslatedText()) {
+                binding.graphicOverlay.drawTranslatedRect()
+            } else {
+                // Translate text in the graphic view
+                CoroutineScope(Dispatchers.Main).launch {
+                    val textList = binding.graphicOverlay.getTextElements()
+                    val translatedTextList = textList.map { text ->
+                        val translatedText = suspendCoroutine { cont ->
+                            viewModel.translateText(text.text) { cont.resume(it) }
+                        }
+                        TextCoordinates(translatedText, text.coordinates)
+                    }
+                    binding.graphicOverlay.setTranslatedTextList(translatedTextList)
+                    binding.graphicOverlay.drawTranslatedRect()
+                }
+            }
+
         }, requireContext()).apply {
             id = View.generateViewId()
         }
