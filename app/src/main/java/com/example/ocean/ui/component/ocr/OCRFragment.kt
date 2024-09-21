@@ -224,6 +224,11 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
 
         }
 
+        binding.btSendTextToHome.setOnClickListener {
+            Log.d(TAG, "Button send text to home is clicked")
+            findNavController().popBackStack()
+        }
+
     }
 
     override fun goToNextScreen() {
@@ -294,6 +299,8 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
                 .build()
                 .also {
                     it.setAnalyzer(cameraExecutor, TextAnalyzer { resultText ->
+                        // put ocr input text into viewModel
+                        viewModel.setInputOCRText(resultText.joinToString("\n") { it.text })
                         binding.graphicOverlay.setElements(resultText)
                     })
                 }
@@ -385,6 +392,7 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
                         }
                         TextCoordinates(translatedText, text.coordinates)
                     }
+                    viewModel.setOutputOCRText(translatedTextList.joinToString("\n") { it.text })
                     binding.graphicOverlay.setTranslatedTextList(translatedTextList)
                     binding.graphicOverlay.drawTranslatedRect()
                 }

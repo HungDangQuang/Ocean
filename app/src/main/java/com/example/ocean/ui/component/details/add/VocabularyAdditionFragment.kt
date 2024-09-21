@@ -64,6 +64,8 @@ class VocabularyAdditionFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpTextChangedBehavior()
+        handleOCRInputText()
+        handleOCROutputText()
     }
 
     override fun setUpClickableView() {
@@ -206,6 +208,28 @@ class VocabularyAdditionFragment : BaseFragment() {
             }
 
         launcher.launch(speechRecognizerIntent)
+    }
+
+    private fun handleOCRInputText() {
+        countryListViewModel.inputOCRText.value?.takeIf { it.isNotEmpty() }?.let {
+            binding.tiInputText.post {
+                binding.tiInputText.setText(it)
+            }
+        }
+    }
+
+    private fun handleOCROutputText() {
+        countryListViewModel.outputOCRText.value?.takeIf { it.isNotEmpty() }?.let {
+            binding.clOutputText.visibility = View.VISIBLE
+            binding.tvOutputText.text = it
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // reset ocr result
+        countryListViewModel.setOutputOCRText("")
+        countryListViewModel.setInputOCRText("")
     }
 
 }

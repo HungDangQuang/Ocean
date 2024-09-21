@@ -41,6 +41,12 @@ class CountryListViewModel @Inject constructor(
     private val _isSelectingInputLanguage = MutableLiveData<Boolean>()
     val isSelectingInputLanguage: LiveData<Boolean> = _isSelectingInputLanguage
 
+    private val _inputOCRText = MutableLiveData<String>()
+    val inputOCRText: LiveData<String> = _inputOCRText
+
+    private val _outputOCRText = MutableLiveData<String>()
+    val outputOCRText: LiveData<String> = _outputOCRText
+
     private val _translatedText = MutableLiveData<String>()
     val translatedText: LiveData<String> = _translatedText
 
@@ -117,4 +123,11 @@ class CountryListViewModel @Inject constructor(
         _currentOutputCountry.value = temp
     }
 
+    fun setInputOCRText(value: String) {
+        _inputOCRText.value = value
+    }
+
+    fun setOutputOCRText(value: String) {
+        _outputOCRText.value = value
+    }
 }

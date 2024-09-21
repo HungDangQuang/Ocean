@@ -154,7 +154,10 @@ class GraphicOverlay(context: Context, attrs: AttributeSet?) : View(context, att
     }
 
     suspend fun getTextString(): String = withContext(Dispatchers.Default) {
-        elements.joinToString("\n") { it.text }
+        if (isNeedToShowOriginalText) {
+            elements.joinToString("\n") { it.text }
+        }
+        translatedTextList.joinToString("\n") { it.text }
     }
 
     fun getTextElements(): List<TextCoordinates> {
