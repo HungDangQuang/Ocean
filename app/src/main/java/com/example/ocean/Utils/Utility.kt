@@ -7,6 +7,8 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.net.Uri
 import android.util.Log
 import android.view.View.OnClickListener
 import android.view.Window
@@ -14,6 +16,7 @@ import android.widget.Button
 import androidx.appcompat.app.ActionBar.LayoutParams
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.example.ocean.OceanApplication
 import com.example.ocean.R
 import java.io.File
@@ -127,6 +130,23 @@ class Utility {
 
             // Set the ClipData into the ClipboardManager
             clipboard.setPrimaryClip(clip)
+        }
+
+        fun saveImage(bitmap: Bitmap, context: Context) : Uri? {
+            val imageFolder = File(context.cacheDir, "images")
+            var uri: Uri? = null
+            try {
+                imageFolder.mkdirs()
+                val file = File(imageFolder, "ocr_images.jpg")
+                val stream = FileOutputStream(file)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                stream.flush()
+                stream.close()
+                uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+            } catch (e: IOException){
+                Log.e(TAG, "saveImage: error occurred: ${e.message}", null)
+            }
+            return uri
         }
 
 

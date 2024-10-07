@@ -1,5 +1,6 @@
 package com.example.ocean.ui.component.ocr
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.net.Uri
@@ -63,6 +64,7 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
     private lateinit var selectionView: SelectionView
     private val viewModel: CountryListViewModel by activityViewModels()
     private var isRequestedToShowCamera = false
+    private lateinit var uri: Uri
     companion object {
         private const val TAG = "CameraXApp"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
@@ -229,6 +231,20 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
             findNavController().popBackStack()
         }
 
+        binding.btShare.setOnClickListener {
+            Log.d(TAG, "Button share is clicked")
+            // test Sharesheet
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                type = "image/*"
+                putExtra(Intent.EXTRA_STREAM, uri)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, "Share content")
+            startActivity(shareIntent)
+        }
+
     }
 
     override fun goToNextScreen() {
@@ -346,6 +362,7 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
                     val rotatedBitmap =
                         Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
                     image.close()
+                    uri = Utility.saveImage(rotatedBitmap, requireContext())!!
 
 
                     // show the captured image
