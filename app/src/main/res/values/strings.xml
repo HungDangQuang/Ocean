@@ -43,4 +43,7 @@
     <!-- Selection button -->
     <string name="button_copy">Copy</string>
     <string name="button_translate">Translate</string>
+
+    <!-- No text for translation -->
+    <string name="message_no_text_for_translation">No text for translation</string>
 </resources>

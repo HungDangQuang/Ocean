@@ -62,6 +62,7 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
     private lateinit var cameraProvider: ProcessCameraProvider
     private lateinit var displayedTextOptionView: DisplayedTextOptionView
     private lateinit var selectionView: SelectionView
+    private lateinit var noTextForTranslationView: NoTextForTranslationView
     private val viewModel: CountryListViewModel by activityViewModels()
     private var isRequestedToShowCamera = false
     private lateinit var uri: Uri
@@ -169,6 +170,9 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
             // Remove initialized selection view
             removeSelectionView()
             binding.graphicOverlay.resetRectColor()
+
+            // Remove initialized no text for translation view
+            removeNoTextForTranslationView()
         }
 
         binding.btGallery.setOnClickListener {
@@ -316,8 +320,15 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
                 .also {
                     it.setAnalyzer(cameraExecutor, TextAnalyzer { resultText ->
                         // put ocr input text into viewModel
-                        viewModel.setInputOCRText(resultText.joinToString("\n") { it.text })
-                        binding.graphicOverlay.setElements(resultText)
+                        val inputText = resultText.joinToString("\n") { it.text }
+                        if (inputText.isEmpty() || inputText.isBlank() || inputText == "") {
+                            binding.sv.visibility = View.GONE
+                            removeNoTextForTranslationView()
+                            showViewNoTextForTranslation()
+                        } else {
+                            viewModel.setInputOCRText(inputText)
+                            binding.graphicOverlay.setElements(resultText)
+                        }
                     })
                 }
 
@@ -463,6 +474,26 @@ class OCRFragment : BaseFragment(), CameraXConfig.Provider {
         findNavController().navigate(R.id.countryListFragment)
         removeSelectionView()
         binding.graphicOverlay.resetRectColor()
+    }
+
+    private fun removeNoTextForTranslationView() {
+        if (::noTextForTranslationView.isInitialized) binding.parentView.removeView(noTextForTranslationView)
+    }
+
+    private fun showViewNoTextForTranslation() {
+        noTextForTranslationView = NoTextForTranslationView(requireContext()).apply {
+            id = View.generateViewId()
+        }
+
+        binding.clBottomSheet.addView(noTextForTranslationView)
+
+        val constraintSet = ConstraintSet().apply {
+            clone(binding.clBottomSheet)
+            connect(noTextForTranslationView.id, ConstraintSet.TOP, binding.sv.id, ConstraintSet.BOTTOM, 50)
+            connect(noTextForTranslationView.id, ConstraintSet.START, binding.parentView.id, ConstraintSet.START, 0)
+            connect(noTextForTranslationView.id, ConstraintSet.END, binding.parentView.id, ConstraintSet.END, 0)
+        }
+        constraintSet.applyTo(binding.clBottomSheet)
     }
 
 }

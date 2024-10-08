@@ -175,6 +175,7 @@
                 app:layout_constraintDimensionRatio="2.5:1"/>
 
             <HorizontalScrollView
+                android:id="@+id/sv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toEndOf="@id/guideline_left"
