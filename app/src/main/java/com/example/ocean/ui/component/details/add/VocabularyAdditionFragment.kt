@@ -3,7 +3,6 @@ package com.example.ocean.ui.component.details.add
 import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.util.Log
@@ -14,9 +13,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.registerForActivityResult
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.ocean.R
@@ -68,6 +64,8 @@ class VocabularyAdditionFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpTextChangedBehavior()
+        handleOCRInputText()
+        handleOCROutputText()
     }
 
     override fun setUpClickableView() {
@@ -210,6 +208,28 @@ class VocabularyAdditionFragment : BaseFragment() {
             }
 
         launcher.launch(speechRecognizerIntent)
+    }
+
+    private fun handleOCRInputText() {
+        countryListViewModel.inputOCRText.value?.takeIf { it.isNotEmpty() }?.let {
+            binding.tiInputText.post {
+                binding.tiInputText.setText(it)
+            }
+        }
+    }
+
+    private fun handleOCROutputText() {
+        countryListViewModel.outputOCRText.value?.takeIf { it.isNotEmpty() }?.let {
+            binding.clOutputText.visibility = View.VISIBLE
+            binding.tvOutputText.text = it
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // reset ocr result
+        countryListViewModel.setOutputOCRText("")
+        countryListViewModel.setInputOCRText("")
     }
 
 }

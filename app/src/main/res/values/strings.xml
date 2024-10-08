@@ -33,6 +33,17 @@
     <string name="test">Hello Dagger</string>
 
     <string name="dialog_text_message_recording">Recording…</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="button_original_text">Original</string>
+    <string name="button_translated_text">Translated</string>
+    <string name="button_send_to_translate_home">Send to Translate Home</string>
+    <string name="button_select_all">Select all</string>
+    <string name="bt_share">Share</string>
+
+    <!-- Selection button -->
+    <string name="button_copy">Copy</string>
+    <string name="button_translate">Translate</string>
+
+    <!-- No text for translation -->
+    <string name="message_no_text_for_translation">No text for translation</string>
 </resources>

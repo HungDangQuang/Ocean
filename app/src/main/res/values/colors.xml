@@ -13,4 +13,15 @@
     <color name="color_purple">#4A249D</color>
 
     <color name="background_yellow">#c46f2b</color>
+
+    <color name="color_floral_white">#fdf9ec</color>
+    <color name="color_pale_spring_bud">#e8e6c2</color>
+
+    <color name="color_eerie_black">#1e1d15</color>
+    <color name="color_alabaster">#ebeaea</color>
+    <color name="color_platinum">#e2e5ec</color>
+    <color name="color_anti_flash_white">#eceff4</color>
+    <color name="color_arsenic">#3d4043</color>
+    
+    <color name="color_maximum_blue_purple">#a5b9e6</color>
 </resources>

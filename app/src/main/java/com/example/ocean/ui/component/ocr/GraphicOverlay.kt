@@ -9,6 +9,10 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.ContextCompat
+import com.example.ocean.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class GraphicOverlay(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
@@ -27,7 +31,9 @@ class GraphicOverlay(context: Context, attrs: AttributeSet?) : View(context, att
     private val cornerRadius = 10f
 
     private var elements: List<TextCoordinates> = listOf()
+    private var translatedTextList : List<TextCoordinates> = listOf()
     val TAG = GraphicOverlay::class.java.simpleName
+    private var isNeedToShowOriginalText = true
 
     init {
         // Redraw the overlay, as this graphic has been added.
@@ -40,7 +46,7 @@ class GraphicOverlay(context: Context, attrs: AttributeSet?) : View(context, att
         invalidate()
     }
 
-    fun resetElements() {
+    private fun resetElements() {
         this.elements = listOf()
         invalidate()
     }
@@ -48,94 +54,133 @@ class GraphicOverlay(context: Context, attrs: AttributeSet?) : View(context, att
     fun restartPaint() {
         textPaint.color = Color.RED
         textPaint.textSize = 32.0f
+        resetElements()
         invalidate()
     }
 
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        val listCoordinatesToDraw = if (isNeedToShowOriginalText) elements else translatedTextList
+        var tempRectF = RectF()
+        for (element in listCoordinatesToDraw) {
 
-        if (elements.isNotEmpty()) {
-            var tempRectF = RectF()
-            for (element in elements) {
+            // Measure the size of the text
+            val textBounds = Rect()
+            textPaint.getTextBounds(element.text, 0, element.text.length, textBounds)
 
-                // Measure the size of the text
-                val textBounds = Rect()
-                textPaint.getTextBounds(element.text, 0, element.text.length, textBounds)
+            val points = element.coordinates
+            var left = points[0].x.toFloat() * 1.5f
+            var top = points[0].y.toFloat() * 1.8f
+            var right = points[1].x.toFloat() * 1.5f + textBounds.width() * 0.8f + cornerRadius
+            var bottom = points[1].y.toFloat() * 1.8f + textBounds.height() + cornerRadius
 
-                val points = element.coordinates
-                var left = points[0].x.toFloat() * 1.5f
-                var top = points[0].y.toFloat() * 1.8f
-                var right = points[1].x.toFloat() * 1.5f + textBounds.width() * 0.8f + cornerRadius
-                var bottom = points[1].y.toFloat() * 1.8f + textBounds.height() + cornerRadius
+            val rectF = RectF(
+                left,
+                top,
+                right,
+                bottom
+            )
 
-                val rectF = RectF(
-                    left,
-                    top,
-                    right,
-                    bottom
-                )
+            if (rectF.intersect(tempRectF) && !tempRectF.isEmpty) {
 
-                if (rectF.intersect(tempRectF) && !tempRectF.isEmpty) {
+                // Get intersection area
+                val deltaX =
+                    (rectF.right - tempRectF.left).coerceAtMost(tempRectF.right - rectF.left)
+                val deltaY =
+                    (rectF.bottom - tempRectF.top).coerceAtMost(tempRectF.bottom - rectF.top)
 
-                    // Get intersection area
-                    val deltaX =
-                        (rectF.right - tempRectF.left).coerceAtMost(tempRectF.right - rectF.left)
-                    val deltaY =
-                        (rectF.bottom - tempRectF.top).coerceAtMost(tempRectF.bottom - rectF.top)
-
-                    // Split the text box vertically
-                    if (rectF.top > tempRectF.bottom) {
-                        top -= deltaY
-                        bottom -= deltaY
-                    } else {
-                        top += deltaY
-                        bottom += deltaY
-                    }
-
-                    // Check for intersection after splitting
-                    val temp = RectF(left, top, right, bottom)
-
-                    if (temp.intersect(tempRectF)) {
-
-                        // Split the text box horizontally
-                        if (rectF.left < tempRectF.left) {
-                            left -= deltaX
-                            right -= deltaX
-                        } else {
-                            left += deltaX
-                            right += deltaX
-                        }
-                    }
+                // Split the text box vertically
+                if (rectF.top > tempRectF.bottom) {
+                    top -= deltaY
+                    bottom -= deltaY
+                } else {
+                    top += deltaY
+                    bottom += deltaY
                 }
 
-                // Update temp rect
-                tempRectF = RectF(left, top, right, bottom)
+                // Check for intersection after splitting
+                val temp = RectF(left, top, right, bottom)
 
-                // Draw rect
-                canvas.drawRoundRect(
-                    left,
-                    top,
-                    right,
-                    bottom,
-                    cornerRadius,
-                    cornerRadius,
-                    rectPaint
-                )
+                if (temp.intersect(tempRectF)) {
 
-                // Draw text to stay centered of rect
-                val fontMetrics = textPaint.fontMetrics
-                val textHeight = fontMetrics.descent - fontMetrics.ascent
-                val textOffset = textHeight / 2 - fontMetrics.descent
-
-                canvas.drawText(
-                    element.text,
-                    left + (right - left) / 2 + textOffset,
-                    top + (bottom - top) / 2 + textOffset,
-                    textPaint
-                )
+                    // Split the text box horizontally
+                    if (rectF.left < tempRectF.left) {
+                        left -= deltaX
+                        right -= deltaX
+                    } else {
+                        left += deltaX
+                        right += deltaX
+                    }
+                }
             }
+
+            // Update temp rect
+            tempRectF = RectF(left, top, right, bottom)
+
+            // Draw rect
+            canvas.drawRoundRect(
+                left,
+                top,
+                right,
+                bottom,
+                cornerRadius,
+                cornerRadius,
+                rectPaint
+            )
+
+            // Draw text to stay centered of rect
+            val fontMetrics = textPaint.fontMetrics
+            val textHeight = fontMetrics.descent - fontMetrics.ascent
+            val textOffset = textHeight / 2 - fontMetrics.descent
+
+            canvas.drawText(
+                element.text,
+                left + (right - left) / 2 + textOffset,
+                top + (bottom - top) / 2 + textOffset,
+                textPaint
+            )
         }
     }
 
+    fun changeRectColor() {
+        rectPaint.color = ContextCompat.getColor(context, R.color.color_maximum_blue_purple)
+        invalidate()
+    }
+
+    fun resetRectColor() {
+        rectPaint.color = Color.WHITE
+        invalidate()
+    }
+
+    suspend fun getTextString(): String = withContext(Dispatchers.Default) {
+        if (isNeedToShowOriginalText) {
+            elements.joinToString("\n") { it.text }
+        }
+        translatedTextList.joinToString("\n") { it.text }
+    }
+
+    fun getTextElements(): List<TextCoordinates> {
+        return elements
+    }
+
+    fun setTranslatedTextList(translatedTextList: List<TextCoordinates>) {
+        this.translatedTextList = translatedTextList
+    }
+
+    fun isHasTranslatedText(): Boolean {
+        return translatedTextList.isNotEmpty()
+    }
+
+    fun drawTranslatedRect() {
+        isNeedToShowOriginalText = false
+        invalidate()
+        postInvalidate()
+    }
+
+    fun drawOriginalRect() {
+        isNeedToShowOriginalText = true
+        invalidate()
+        postInvalidate()
+    }
 }
