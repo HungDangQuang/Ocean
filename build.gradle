@@ -5,6 +5,13 @@
 //    }
 //}
 
+buildscript {
+    dependencies {
+        // Add this line if it's not there already
+        classpath 'com.google.gms:google-services:4.4.2' // or the latest version
+    }
+}
+
 plugins {
     id 'com.android.application' version '8.4.2' apply false
     id 'com.android.library' version '8.4.2' apply false
