@@ -1,5 +1,6 @@
 package com.example.ocean.ui.component.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import com.example.ocean.ui.adapter.OnMenuItemClickListener
 import com.example.ocean.R
 import com.example.ocean.databinding.FragmentHomeBinding
 import com.example.ocean.ui.base.BaseFragment
+import com.example.ocean.ui.component.login.LoginActivity
 
 class HomeFragment : BaseFragment(), OnMenuItemClickListener {
 
@@ -78,7 +80,11 @@ class HomeFragment : BaseFragment(), OnMenuItemClickListener {
             }
             
             getString(R.string.menu_item_dictionary) -> {
+                // TODO temporary code for testing login operation
                 Log.d(TAG, "onItemClick: Start opening dictionary screen")
+                val intent = Intent(context, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
             }
 
             getString(R.string.menu_item_start_test) -> {

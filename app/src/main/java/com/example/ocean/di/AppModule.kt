@@ -7,10 +7,12 @@ import com.example.ocean.data.repository.LocalStorageRepositoryImpl
 import com.example.ocean.data.repository.TranslationRepositoryImpl
 import com.example.ocean.data.repository.datasource.DataStorePreferences
 import com.example.ocean.data.service.RetrofitInstance
+import com.example.ocean.domain.repository.FirebaseRepository
 import com.example.ocean.domain.repository.LocalStorageRepository
 import com.example.ocean.domain.storage.DataStoreKey
 import com.example.ocean.domain.usecase.GetCurrentCountryUseCase
 import com.example.ocean.domain.usecase.GetImagesDownloadedFlagUseCase
+import com.example.ocean.domain.usecase.LoginByGoogleUseCase
 import com.example.ocean.domain.usecase.StoreCurrentCountryUseCase
 import com.example.ocean.domain.usecase.StoreImagesDownloadedFlagUseCase
 import com.example.ocean.domain.usecase.TranslateTextUseCase
@@ -107,6 +109,14 @@ object AppModule {
         translationRepository: TranslationRepositoryImpl
     ) = TranslateTextUseCase(
         translationRepository
+    )
+
+    @Singleton
+    @Provides
+    fun provideLoginByGoogleUseCase(
+        firebaseRepository: FirebaseRepository
+    ) = LoginByGoogleUseCase(
+        firebaseRepository
     )
 
 }
