@@ -24,4 +24,7 @@
     <color name="color_arsenic">#3d4043</color>
     
     <color name="color_maximum_blue_purple">#a5b9e6</color>
+
+    <color name="color_gray">#6F6F6F</color>
+    <color name="color_light_gray">#F4F4F4</color>
 </resources>

@@ -46,4 +46,12 @@
 
     <!-- No text for translation -->
     <string name="message_no_text_for_translation">No text for translation</string>
+
+    <!-- Sign in screen-->
+    <string name="message_sign_in_with_account">Sign in with your account</string>
+    <string name="message_email">Email</string>
+    <string name="message_password">Password</string>
+    <string name="button_sign_in">Sign in</string>
+    <string name="message_sign_in_option">or sign in with</string>
+    <string name="message_no_account">Don\'t have an account? SIGN UP</string>
 </resources>
