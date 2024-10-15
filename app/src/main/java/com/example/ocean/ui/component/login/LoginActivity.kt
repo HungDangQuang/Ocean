@@ -30,6 +30,10 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btSignIn.setOnClickListener {
+
+            // check email error
+            checkEmailError()
+
             // check password error
             checkPasswordError()
         }
@@ -94,6 +98,17 @@ class LoginActivity : AppCompatActivity() {
         } else {
             Log.d(TAG, "checkPasswordError: password null")
             binding.layoutPassword.error = null
+        }
+    }
+
+    private fun checkEmailError() {
+        // todo detail implementation later
+        if (binding.tiEmail.text.toString().isEmpty()) {
+            Log.d(TAG, "checkEmailError: email pass")
+            binding.layoutEmail.error = getString(R.string.app_name)
+        } else {
+            Log.d(TAG, "checkEmailError: email null")
+            binding.layoutEmail.error = null
         }
     }
 

@@ -154,10 +154,7 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="PasswordInputTextLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="passwordToggleEnabled">true</item>
-        <item name="passwordToggleDrawable">@drawable/show_password_selector</item>
-        <item name="endIconMode">password_toggle</item>
+    <style name="InputTextLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="boxStrokeWidth">0dp</item>
         <item name="boxStrokeWidthFocused">0dp</item>
         <item name="errorEnabled">true</item>
