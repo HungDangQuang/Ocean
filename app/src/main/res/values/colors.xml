@@ -27,4 +27,5 @@
 
     <color name="color_gray">#6F6F6F</color>
     <color name="color_light_gray">#F4F4F4</color>
+    <color name="color_error_red">#B00020</color>
 </resources>

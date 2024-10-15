@@ -72,9 +72,9 @@
     <com.google.android.material.textfield.TextInputLayout
         style="@style/PasswordInputTextLayout"
         android:theme="@style/Theme.Ocean"
-        android:id="@+id/layoutTextInput"
+        android:id="@+id/layout_password"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="70dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="10dp"
@@ -83,9 +83,9 @@
 
         <com.google.android.material.textfield.TextInputEditText
             style="@style/TextInputSignIn"
-            android:id="@+id/editTextValue"
+            android:id="@+id/ti_password"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:imeOptions="actionNext"
             android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -97,8 +97,8 @@
         android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutTextInput"
-        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_password"
+        android:layout_marginTop="60dp"
         android:layout_marginHorizontal="50dp"
         android:text="@string/button_sign_in"/>
 

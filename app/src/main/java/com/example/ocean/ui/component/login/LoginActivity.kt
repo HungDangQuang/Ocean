@@ -7,6 +7,7 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.ocean.R
 import com.example.ocean.databinding.ActivityLoginBinding
 import com.example.ocean.presentation.LoginViewModel
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
@@ -21,11 +22,17 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding:ActivityLoginBinding
     private lateinit var oneTapClient: SignInClient
     private val loginViewModel: LoginViewModel by viewModels()
-
+    private val TAG = LoginActivity::class.java.simpleName
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.btSignIn.setOnClickListener {
+            // check password error
+            checkPasswordError()
+        }
     }
 
     override fun onStart() {
@@ -76,6 +83,17 @@ class LoginActivity : AppCompatActivity() {
             } catch (e: ApiException) {
                 Log.e(ContentValues.TAG, "One Tap sign-in failed", e)
             }
+        }
+    }
+
+    private fun checkPasswordError() {
+        // todo detail implementation later
+        if (binding.tiPassword.text.toString().isEmpty()) {
+            Log.d(TAG, "checkPasswordError: password pass")
+            binding.layoutPassword.error = getString(R.string.app_name)
+        } else {
+            Log.d(TAG, "checkPasswordError: password null")
+            binding.layoutPassword.error = null
         }
     }
 

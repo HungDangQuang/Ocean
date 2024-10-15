@@ -159,5 +159,8 @@
         <item name="passwordToggleDrawable">@drawable/show_password_selector</item>
         <item name="endIconMode">password_toggle</item>
         <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="errorEnabled">true</item>
+        <item name="cursorErrorColor">@color/color_error_red</item>
     </style>
 </resources>
