@@ -104,12 +104,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun checkPasswordError() {
-        // todo detail implementation later
+        Log.d(TAG, "checkPasswordError")
         if (binding.tiPassword.text.toString().isEmpty()) {
-            Log.d(TAG, "checkPasswordError: password pass")
-            binding.layoutPassword.error = getString(R.string.app_name)
+            binding.layoutPassword.error = getString(R.string.error_message_no_password_input)
         } else {
-            Log.d(TAG, "checkPasswordError: password null")
             binding.layoutPassword.error = null
         }
     }
