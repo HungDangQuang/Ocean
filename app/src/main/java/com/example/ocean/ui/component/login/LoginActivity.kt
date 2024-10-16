@@ -2,12 +2,15 @@ package com.example.ocean.ui.component.login
 
 import android.content.ContentValues
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ocean.R
+import com.example.ocean.Utils.Utility.Companion.isValidEmail
 import com.example.ocean.databinding.ActivityLoginBinding
 import com.example.ocean.presentation.LoginViewModel
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
@@ -29,10 +32,20 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.tiEmail.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.layoutEmail.error = null
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
         binding.btSignIn.setOnClickListener {
 
             // check email error
-            checkEmailError()
+            checkEmailInputError()
 
             // check password error
             checkPasswordError()
@@ -101,14 +114,14 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkEmailError() {
-        // todo detail implementation later
-        if (binding.tiEmail.text.toString().isEmpty()) {
-            Log.d(TAG, "checkEmailError: email pass")
-            binding.layoutEmail.error = getString(R.string.app_name)
-        } else {
-            Log.d(TAG, "checkEmailError: email null")
-            binding.layoutEmail.error = null
+    private fun checkEmailInputError() {
+        Log.d(TAG, "checkEmailError")
+        val email = binding.tiEmail.text.toString()
+
+        binding.layoutEmail.error = when {
+            email.isEmpty() -> getString(R.string.error_message_no_email_input)
+            !isValidEmail(email) -> getString(R.string.error_message_email_not_valid)
+            else -> null
         }
     }
 

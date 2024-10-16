@@ -9,7 +9,9 @@ import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.net.Uri
+import android.text.TextUtils
 import android.util.Log
+import android.util.Patterns
 import android.view.View.OnClickListener
 import android.view.Window
 import android.widget.Button
@@ -147,6 +149,10 @@ class Utility {
                 Log.e(TAG, "saveImage: error occurred: ${e.message}", null)
             }
             return uri
+        }
+
+        fun isValidEmail(email: String) : Boolean {
+            return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
         }
 
 

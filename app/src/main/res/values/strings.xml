@@ -54,4 +54,6 @@
     <string name="button_sign_in">Sign in</string>
     <string name="message_sign_in_option">or sign in with</string>
     <string name="message_no_account">Don\'t have an account? SIGN UP</string>
+    <string name="error_message_no_email_input">Email should not be empty</string>
+    <string name="error_message_email_not_valid">Email is not valid</string>
 </resources>
