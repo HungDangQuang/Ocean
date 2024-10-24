@@ -6,7 +6,8 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
-def clientId = project.hasProperty('CLIENT_ID') ? project.CLIENT_ID : ""
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
 android {
     namespace 'com.example.ocean'
@@ -20,7 +21,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        resValue "string", "server_client_id", clientId
+        resValue("string", "server_client_id", localProperties['CLIENT_ID'])
     }
 
     buildTypes {
@@ -111,6 +112,9 @@ dependencies {
 
     // Also add the dependency for the Google Play services library and specify its version
     implementation("com.google.android.gms:play-services-auth:21.2.0")
+    implementation "androidx.credentials:credentials:1.3.0"
+    implementation "androidx.credentials:credentials-play-services-auth:1.3.0"
+    implementation "com.google.android.libraries.identity.googleid:googleid:1.1.1"
 }
 
 kapt {

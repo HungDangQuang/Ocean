@@ -1,19 +1,15 @@
 package com.example.ocean.ui.component.login
 
-import android.content.ContentValues
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ocean.R
 import com.example.ocean.Utils.Utility.Companion.isValidEmail
 import com.example.ocean.databinding.ActivityLoginBinding
 import com.example.ocean.presentation.LoginViewModel
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,17 +44,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.ivGoogle.setOnClickListener {
-            testLogin()
-        }
-    }
-
-    private val signInLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            try {
-                Log.d(TAG, "Login successfully")
-            } catch (e: Exception) {
-                Log.e(ContentValues.TAG, "Sign-in failed", e)
-            }
+            Log.d(TAG, "SignInWithGoogle Button is clicked")
+            loginViewModel.loginWithGoogleEmail()
         }
     }
 
@@ -80,18 +67,5 @@ class LoginActivity : AppCompatActivity() {
             !isValidEmail(email) -> getString(R.string.error_message_email_not_valid)
             else -> null
         }
-    }
-
-    private fun testLogin() {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .requestIdToken("251418567267-c14gfekqiedspb0n02dm4ss5u4pf1rmj.apps.googleusercontent.com")
-            .build()
-
-        val googleSignInClient = GoogleSignIn.getClient(this, gso)
-
-
-        val signInIntent = googleSignInClient.signInIntent
-        signInLauncher.launch(signInIntent)
     }
 }

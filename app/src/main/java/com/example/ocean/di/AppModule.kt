@@ -7,7 +7,7 @@ import com.example.ocean.data.repository.LocalStorageRepositoryImpl
 import com.example.ocean.data.repository.TranslationRepositoryImpl
 import com.example.ocean.data.repository.datasource.DataStorePreferences
 import com.example.ocean.data.service.RetrofitInstance
-import com.example.ocean.domain.repository.FirebaseRepository
+import com.example.ocean.domain.repository.GoogleAuthenticationRepository
 import com.example.ocean.domain.repository.LocalStorageRepository
 import com.example.ocean.domain.storage.DataStoreKey
 import com.example.ocean.domain.usecase.GetCurrentCountryUseCase
@@ -114,9 +114,9 @@ object AppModule {
     @Singleton
     @Provides
     fun provideLoginByGoogleUseCase(
-        firebaseRepository: FirebaseRepository
+        googleAuthenticationRepository: GoogleAuthenticationRepository
     ) = LoginByGoogleUseCase(
-        firebaseRepository
+        googleAuthenticationRepository
     )
 
 }
