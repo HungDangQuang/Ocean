@@ -28,4 +28,16 @@
         android:name="com.example.ocean.ui.component.ocr.OCRFragment"
         android:label="fragment_ocr"
         tools:layout="@layout/fragment_ocr" />
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.ocean.ui.component.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login"/>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.ocean.ui.component.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile"/>
 </navigation>

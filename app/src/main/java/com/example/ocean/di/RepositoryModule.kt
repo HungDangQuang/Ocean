@@ -1,7 +1,9 @@
 package com.example.ocean.di
 
 import com.example.ocean.data.repository.GoogleAuthenticationRepositoryImpl
+import com.example.ocean.data.repository.ImageUtilRepositoryImpl
 import com.example.ocean.domain.repository.GoogleAuthenticationRepository
+import com.example.ocean.domain.repository.ImageUtilRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,4 +18,11 @@ abstract class RepositoryModule {
     abstract fun bindGoogleAuthenticationRepository(
         googleAuthenticationRepositoryImpl: GoogleAuthenticationRepositoryImpl
     ): GoogleAuthenticationRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindImageUtilRepository(
+        imageUtilRepositoryImpl: ImageUtilRepositoryImpl
+    ): ImageUtilRepository
+
 }

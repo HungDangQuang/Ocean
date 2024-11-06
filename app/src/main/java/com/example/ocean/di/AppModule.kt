@@ -8,9 +8,11 @@ import com.example.ocean.data.repository.TranslationRepositoryImpl
 import com.example.ocean.data.repository.datasource.DataStorePreferences
 import com.example.ocean.data.service.RetrofitInstance
 import com.example.ocean.domain.repository.GoogleAuthenticationRepository
+import com.example.ocean.domain.repository.ImageUtilRepository
 import com.example.ocean.domain.repository.LocalStorageRepository
 import com.example.ocean.domain.storage.DataStoreKey
 import com.example.ocean.domain.usecase.GetCurrentCountryUseCase
+import com.example.ocean.domain.usecase.GetImageFromURLUseCase
 import com.example.ocean.domain.usecase.GetImagesDownloadedFlagUseCase
 import com.example.ocean.domain.usecase.LoginByGoogleUseCase
 import com.example.ocean.domain.usecase.StoreCurrentCountryUseCase
@@ -117,6 +119,14 @@ object AppModule {
         googleAuthenticationRepository: GoogleAuthenticationRepository
     ) = LoginByGoogleUseCase(
         googleAuthenticationRepository
+    )
+
+    @Singleton
+    @Provides
+    fun provideGetImageFromURLUseCase(
+        imageUtilRepository: ImageUtilRepository
+    ) = GetImageFromURLUseCase(
+        imageUtilRepository
     )
 
 }
