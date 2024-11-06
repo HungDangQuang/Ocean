@@ -49,7 +49,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun loadImageFromURL(url: String) {
+    private fun loadImageFromURL(url: String) {
         viewModelScope.launch {
             val result = getImageFromURLUseCase(url)
             if (result is Result.Success) {
