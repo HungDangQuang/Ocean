@@ -5,11 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import com.example.ocean.R
-import com.example.ocean.databinding.FragmentHomeBinding
 import com.example.ocean.databinding.FragmentProfileBinding
 import com.example.ocean.presentation.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,5 +40,4 @@ class ProfileFragment : Fragment() {
             binding.tvUsername.text = loginViewModel.displayName.value
         }
     }
-
 }
