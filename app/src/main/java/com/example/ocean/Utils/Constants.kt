@@ -119,4 +119,7 @@ object Constants {
     // processed image size to the text recognition MLKit
     const val PROCESSED_IMAGE_WIDTH_SIZE = 720
     const val PROCESSED_IMAGE_HEIGHT_SIZE = 1280
+
+    // key to store dark dark theme status
+    const val KEY_DARK_THEME_STATUS = "DARK_THEME_STATUS"
 }

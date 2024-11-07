@@ -34,7 +34,8 @@
         </activity>
         <activity
             android:name=".ui.component.home.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:configChanges="uiMode">
         </activity>
         <provider
             android:name="androidx.core.content.FileProvider"
