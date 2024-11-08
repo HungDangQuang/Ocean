@@ -171,4 +171,9 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
 
+    <style name="CustomSwitchStyle" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="thumbTint">@drawable/switch_thumb_color</item>
+        <item name="trackTint">@drawable/switch_track_color</item>
+    </style>
+
 </resources>
