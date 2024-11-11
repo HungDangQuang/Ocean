@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.text.TextUtils
 import android.util.Log
@@ -73,7 +74,7 @@ class Utility {
 
         fun saveImageToDisk(byteArray: ByteArray, fileName: String) {
             val countryFlagFolder = File(OceanApplication.applicationContext().filesDir, "country_flags")
-            countryFlagFolder.takeIf { !it.exists() }?.apply { mkdirs() }
+//            countryFlagFolder.takeIf { !it.exists() }?.apply { mkdirs() }
             val file = File(countryFlagFolder, "$fileName.png")
             // Write the byte array to the file
             try {
@@ -153,6 +154,10 @@ class Utility {
 
         fun isValidEmail(email: String) : Boolean {
             return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        }
+
+        fun loadImageBitmapFromAbsolutePath(path: String?) : Bitmap {
+            return BitmapFactory.decodeFile(path)
         }
 
 

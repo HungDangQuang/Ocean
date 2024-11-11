@@ -27,8 +27,8 @@ class LoginViewModel @Inject constructor(
     private val _displayName = MutableLiveData<String>()
     val displayName: LiveData<String> = _displayName
 
-    private val _avatarBitmap = MutableLiveData<Bitmap>()
-    val avatarBitmap: LiveData<Bitmap> = _avatarBitmap
+    private val _avatarBitmapAbsoluteFilePath = MutableLiveData<String>()
+    val avatarBitmapAbsoluteFilePath: LiveData<String> = _avatarBitmapAbsoluteFilePath
 
     fun loginWithGoogleEmail() {
 
@@ -54,7 +54,7 @@ class LoginViewModel @Inject constructor(
             val result = getImageFromURLUseCase(url)
             if (result is Result.Success) {
                 Log.d(TAG, "loadImageFromURL: successfully loaded")
-                _avatarBitmap.postValue(result.data)
+                _avatarBitmapAbsoluteFilePath.postValue(result.data)
             } else {
                 Log.d(TAG, "loadImageFromURL: Failed to load image bitmap")
             }

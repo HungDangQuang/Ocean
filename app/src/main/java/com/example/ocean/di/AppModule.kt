@@ -124,9 +124,9 @@ object AppModule {
     @Singleton
     @Provides
     fun provideGetImageFromURLUseCase(
-        imageUtilRepository: ImageUtilRepository
+        localStorageRepository: LocalStorageRepository
     ) = GetImageFromURLUseCase(
-        imageUtilRepository
+        localStorageRepository
     )
 
 }

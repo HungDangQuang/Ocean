@@ -1,17 +1,16 @@
 package com.example.ocean.domain.usecase
 
-import android.graphics.Bitmap
-import com.example.ocean.domain.repository.ImageUtilRepository
+import com.example.ocean.domain.repository.LocalStorageRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
 class GetImageFromURLUseCase (
-    private val imageUtilRepository: ImageUtilRepository,
+    private val localStorageRepository: LocalStorageRepository,
     coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
-) : UseCase<String, Bitmap?>(coroutineDispatcher) {
+) : UseCase<String, String?>(coroutineDispatcher) {
 
-    override suspend fun execute(parameters: String): Bitmap? {
-        return imageUtilRepository.loadImageFromUrl(parameters)
+    override suspend fun execute(parameters: String): String {
+        return localStorageRepository.storeImageFromUri(parameters)
     }
 
 }

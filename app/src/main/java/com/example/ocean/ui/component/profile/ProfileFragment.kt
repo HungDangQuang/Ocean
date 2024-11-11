@@ -12,6 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.ocean.R
+import com.example.ocean.Utils.Constants.KEY_IMAGE_PATH
+import com.example.ocean.Utils.Constants.KEY_USER_EMAIL
+import com.example.ocean.Utils.Constants.KEY_USER_NAME
+import com.example.ocean.Utils.Utility
 import com.example.ocean.databinding.FragmentProfileBinding
 import com.example.ocean.presentation.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,11 +44,19 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeData()
         setUpClickingEvents()
+
+        // Check whether user info needs to be reloaded
+        if (savedInstanceState != null) {
+            binding.ivUserAvatar.setImageBitmap(Utility.loadImageBitmapFromAbsolutePath(savedInstanceState.getString(KEY_IMAGE_PATH)))
+            binding.tvEmail.text = savedInstanceState.getString(KEY_USER_EMAIL)
+            binding.tvUsername.text = savedInstanceState.getString(KEY_USER_NAME)
+            savedInstanceState.clear()
+        }
     }
 
     private fun observeData() {
-        loginViewModel.avatarBitmap.observe(this.viewLifecycleOwner) {
-            binding.ivUserAvatar.setImageBitmap(loginViewModel.avatarBitmap.value)
+        loginViewModel.avatarBitmapAbsoluteFilePath.observe(this.viewLifecycleOwner) {
+            binding.ivUserAvatar.setImageBitmap(Utility.loadImageBitmapFromAbsolutePath(loginViewModel.avatarBitmapAbsoluteFilePath.value))
         }
         loginViewModel.userGmail.observe(this.viewLifecycleOwner) {
             binding.tvEmail.text = loginViewModel.userGmail.value
@@ -70,5 +82,12 @@ class ProfileFragment : Fragment() {
                 startActivity(intent)
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_USER_NAME, loginViewModel.displayName.value)
+        outState.putString(KEY_USER_EMAIL, loginViewModel.userGmail.value)
+        outState.putString(KEY_IMAGE_PATH, loginViewModel.avatarBitmapAbsoluteFilePath.value)
     }
 }

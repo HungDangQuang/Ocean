@@ -122,4 +122,9 @@ object Constants {
 
     // key to store dark dark theme status
     const val KEY_DARK_THEME_STATUS = "DARK_THEME_STATUS"
+
+    // Key to store reloading state in Profile Fragment after disabling notifications permission
+    const val KEY_USER_NAME = "USER_NAME"
+    const val KEY_IMAGE_PATH = "IMAGE_PATH"
+    const val KEY_USER_EMAIL = "USER_EMAIL"
 }

@@ -84,7 +84,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun observeData() {
-        loginViewModel.avatarBitmap.observe(viewLifecycleOwner) {
+        loginViewModel.avatarBitmapAbsoluteFilePath.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.profileFragment)
         }
     }
